@@ -53,3 +53,7 @@ class Generator():
         invertedGrayImage = 255.0 - grayImage
 
         return cv2.cvtColor(invertedGrayImage, cv2.COLOR_GRAY2BGR)
+
+
+if __name__ == "__main__":
+    gen = Generator()

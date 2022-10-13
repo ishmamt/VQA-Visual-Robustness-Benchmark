@@ -12,6 +12,8 @@ ishmamt
 from torch.utils.data import Dataset
 import os
 import errno
+import json
+from collections import defaultdict
 
 
 class VQADataset(Dataset):
@@ -52,8 +54,15 @@ class VQADataset(Dataset):
         if not os.path.isdir(self.imageDirectory):
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.imageDirectory)
         
+        # Loading the annotations and questions from the JSON files
+        self.annotations = json.load(open(self.annotationsJSON, 'r'))
+        self.questions = json.load(open(self.questionsJSON, 'r'))
+        
         # Preprocessing the dataset
         self.imageIds, self.imageNames = self.getImageIdsAndNames()
+        self.ImageQuestionDictionary = self.getImageQuestionDictionary()
+        self.answersDictionary = self.getAnswersDictionary()
+        self.questionsDictionary = self.getQuestionsDictionary()
         
         
     def __len__(self):
@@ -63,7 +72,7 @@ class VQADataset(Dataset):
             Returns:
                 datasetLenght (int): Length of the dataset.
         '''
-        return len(self.imageIds)
+        return len(self.questionsDictionary)
     
     
     def __getitem__(self, index):
@@ -95,6 +104,52 @@ class VQADataset(Dataset):
             imageNames[int(id)] = imageName
 
         return imageIds, imageNames
+    
+    
+    def getImageQuestionDictionary(self):
+        '''
+        Returns a dictionary containing image IDs and corresponding question IDs.
+        
+            Returns:
+                ImageQuestionDictionary (dictionary): Dictionary containing image IDs and corresponding question IDs such as {imageId: [questionIDs]}.
+        '''
+        ImageQuestionDictionary = defaultdict(lambda: [])
+        [ImageQuestionDictionary[id] for id in self.imageIds]  # we get {1: [], 2: [], 3: [], .....}
+
+        for question in self.questions["questions"]:
+            ImageQuestionDictionary[int(question["image_id"])].append(int(question["question_id"]))
+
+        return ImageQuestionDictionary
+    
+    
+    def getAnswersDictionary(self):
+        '''
+        Returns a dictionary containing question IDs and corresponding answers.
+        
+            Returns:
+                answersDictionary (dictionary): Dictionary containing question IDs and corresponding answers such as {questionId: [answers]}.
+        '''
+        answersDictionary = dict()
+
+        for annotation in self.annotations["annotations"]:  # list of dictionaries
+            answersDictionary[int(annotation["question_id"])] = annotation["multiple_choice_answer"]
+
+        return answersDictionary
+    
+    
+    def getQuestionsDictionary(self):
+        '''
+        Returns a dictionary containing question IDs and corresponding questions.
+        
+            Returns:
+                questionsDictionary (dictionary): Dictionary containing question IDs and corresponding question such as {questionId: question}.
+        '''
+        questionsDictionary = dict()
+
+        for question in self.questions["questions"]:
+            questionsDictionary[int(question["question_id"])] = question["question"]
+
+        return questionsDictionary
     
     
     

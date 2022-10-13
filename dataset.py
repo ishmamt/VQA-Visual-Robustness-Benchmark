@@ -10,7 +10,6 @@ from torch.utils.data import Dataset
 import os
 import errno
 import json
-import cv2
 from collections import defaultdict
 
 from utils import loadImage

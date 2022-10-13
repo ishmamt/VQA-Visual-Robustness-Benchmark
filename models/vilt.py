@@ -1,7 +1,7 @@
 import torch
-
 from transformers import ViltProcessor
 from transformers import ViltForQuestionAnswering
+
 
 class ViLT():
     '''

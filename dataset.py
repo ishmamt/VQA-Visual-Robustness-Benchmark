@@ -10,6 +10,7 @@ from torch.utils.data import Dataset
 import os
 import errno
 import json
+import cv2
 from collections import defaultdict
 
 
@@ -81,9 +82,18 @@ class VQADataset(Dataset):
             Parameters:
                 index (int): Index of the itam from the VQA2.0 dataset.
             Returns:
-                item (tuple): Tuple containing the image, questions and annotations for the given index.
+                item (tuple): Tuple containing the image, questions and annotations for the given index such as (image, [questions], [answers])
         '''
-        return self.imageIds[index]
+        imageID = self.imageIds[index]
+        image = cv2.imread(os.path.join(self.imageDirectory, self.imageNames[imageID]))
+        questions = list()
+        answers = list()
+        
+        for questionID in self.ImageQuestionDictionary[imageID]:
+            questions.append(self.questionsDictionary[questionID])
+            answers.append(self.answersDictionary[questionID])
+        
+        return image ,questions, answers
     
     
     def getImageIdsAndNames(self):

@@ -17,15 +17,8 @@ For details, go to: <a href="https://pytorch.org/get-started/locally/">PyTorch</
 ```
 pip install torch torchvision torchaudio
 ```
+
 ### Step 2:
-Installing `transformers` from **HuggingFace**:
-```
-# For Windows
-pip install transformers
-# For Linux
-pip install -q git+https://github.com/huggingface/transformers.git
-```
-### Step 3:
 Install `requirements.txt` file as:
 ```
 pip install -r requirements.txt

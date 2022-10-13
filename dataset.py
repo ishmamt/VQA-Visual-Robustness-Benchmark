@@ -1,9 +1,6 @@
 """
 Code to create custom datasets. Inherits from
 PyTorch Dataset class.
-
-All transformation functions will also be
-implemented here.
 ================================================
 ishmamt
 ================================================
@@ -19,23 +16,25 @@ from collections import defaultdict
 class VQADataset(Dataset):
     '''
     Dataset class for the VQA2.0 dataset. For more information please visit (https://github.com/GT-Vision-Lab/VQA).
-
+    
         Attributes:
-                dataset: torch.dataset
-                    The specified dataset to apply transformations.
-
+            name (string): Name of the dataset type (train/val/test).
+            questionsJSON (string): Path to JSON file for the questions.
+            annotationsJSON (string): Path to JSON file for the annotations.
+            imageDirectory (string): Image directory.
+            imagePrefix (string): Prefix of image names i.e. "COCO_train2014_".
     '''
     
     def __init__(self, name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix=None):
         '''
         Constructor for the VQADataset class.
         
-                Parameters:
-                        name (string): Name of the dataset type (train/val/test).
-                        questionsJSON (string): Path to JSON file for the questions.
-                        annotationsJSON (string): Path to JSON file for the annotations.
-                        imageDirectory (string): Image directory.
-                        imagePrefix (string): Prefix of image names i.e. "COCO_train2014_".
+            Parameters:
+                name (string): Name of the dataset type (train/val/test).
+                questionsJSON (string): Path to JSON file for the questions.
+                annotationsJSON (string): Path to JSON file for the annotations.
+                imageDirectory (string): Image directory.
+                imagePrefix (string): Prefix of image names i.e. "COCO_train2014_".
         '''
         self.name = name
         self.questionsJSON = questionsJSON

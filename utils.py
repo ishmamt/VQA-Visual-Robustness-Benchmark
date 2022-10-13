@@ -1,8 +1,24 @@
-import cv2
-import torch
-import json
-from transformers import ViltProcessor
-from transformers import ViltForQuestionAnswering
-from PIL import Image
+"""
+Utilit functions.
+================================================
+ishmamt
+================================================
+"""
 
-print("done")
+import cv2
+import os
+
+
+def loadImage(imageDirectory, imageName):
+    '''
+    Returns the image from the given path.
+    
+        Parameters:
+            imageDirectory (string): Image directory.
+            imageName (string): Name of the image.
+        
+        Returns:
+            image (numpy array): The image specified.
+    '''
+    
+    return cv2.imread(os.path.join(imageDirectory, imageName))

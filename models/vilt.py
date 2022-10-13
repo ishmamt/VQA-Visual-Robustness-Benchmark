@@ -1,3 +1,10 @@
+"""
+ViLT model for VQA.
+================================================
+ishmamt
+================================================
+"""
+
 import torch
 from transformers import ViltProcessor
 from transformers import ViltForQuestionAnswering

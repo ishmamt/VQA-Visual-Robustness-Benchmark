@@ -83,10 +83,10 @@ if __name__ == "__main__":
     generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)
     vilt = ViLT(modelName=modelName)
     
-    image, questions, answers = generator.dataset[0]
-    print(image.shape)
-    print(questions)
-    print(answers)
-    
-    
-    print(vilt.predict(image, questions[0]))
+    for idx in range(0, 10):
+        image, question, answer = generator.dataset[idx]
+        
+        print(question)
+        print(answer)
+        print(vilt.predict(image, question))
+        print("\n\n")

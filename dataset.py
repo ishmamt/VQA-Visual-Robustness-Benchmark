@@ -13,6 +13,8 @@ import json
 import cv2
 from collections import defaultdict
 
+from utils import loadImage
+
 
 class VQADataset(Dataset):
     '''
@@ -61,6 +63,7 @@ class VQADataset(Dataset):
         # Preprocessing the dataset
         self.imageIds, self.imageNames = self.getImageIdsAndNames()
         self.ImageQuestionDictionary = self.getImageQuestionDictionary()
+        self.questionIds = self.getQuestionIds()
         self.answersDictionary = self.getAnswersDictionary()
         self.questionsDictionary = self.getQuestionsDictionary()
         
@@ -84,16 +87,14 @@ class VQADataset(Dataset):
             Returns:
                 item (tuple): Tuple containing the image, questions and annotations for the given index such as (image, [questions], [answers])
         '''
-        imageID = self.imageIds[index]
-        image = cv2.imread(os.path.join(self.imageDirectory, self.imageNames[imageID]))
-        questions = list()
-        answers = list()
+        questionId = self.questionIds[index]
+        imageID = self.ImageQuestionDictionary[questionId]
+        image = loadImage(self.imageDirectory, self.imageNames[imageID])
         
-        for questionID in self.ImageQuestionDictionary[imageID]:
-            questions.append(self.questionsDictionary[questionID])
-            answers.append(self.answersDictionary[questionID])
+        question = self.questionsDictionary[questionId]
+        answer = self.answersDictionary[questionId]
         
-        return image ,questions, answers
+        return image ,question, answer
     
     
     def getImageIdsAndNames(self):
@@ -117,18 +118,32 @@ class VQADataset(Dataset):
     
     def getImageQuestionDictionary(self):
         '''
-        Returns a dictionary containing image IDs and corresponding question IDs.
+        Returns a dictionary containing question IDs and corresponding image IDs.
         
             Returns:
-                ImageQuestionDictionary (dictionary): Dictionary containing image IDs and corresponding question IDs such as {imageId: [questionIDs]}.
+                ImageQuestionDictionary (dictionary): Dictionary containing question IDs and corresponding image IDs such as {questionID: imageID}.
         '''
-        ImageQuestionDictionary = defaultdict(lambda: [])
-        [ImageQuestionDictionary[id] for id in self.imageIds]  # we get {1: [], 2: [], 3: [], .....}
+        ImageQuestionDictionary = dict()
 
         for question in self.questions["questions"]:
-            ImageQuestionDictionary[int(question["image_id"])].append(int(question["question_id"]))
+            ImageQuestionDictionary[int(question["question_id"])] = int(question["image_id"])
 
         return ImageQuestionDictionary
+    
+    
+    def getQuestionIds(self):
+        '''
+        Returns a list containing question IDs.
+        
+            Returns:
+                questionIds (list): A list containing question IDs.
+        '''
+        questionIds = list()
+
+        for question in self.questions["questions"]:
+            questionIds.append(int(question["question_id"]))
+
+        return questionIds
     
     
     def getAnswersDictionary(self):

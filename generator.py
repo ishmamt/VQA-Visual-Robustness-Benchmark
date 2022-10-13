@@ -13,6 +13,7 @@ from email import generator
 import cv2
 
 from dataset import VQADataset
+from models.vilt import ViLT
 
 
 class Generator():
@@ -77,4 +78,11 @@ if __name__ == "__main__":
     annotationsJSON = r"..\Hierarchical-Co-attention-VQA\Data\val\annotations\val_ann_3K.json"
     imageDirectory = r"..\Hierarchical-Co-attention-VQA\Data\val\images\val3K"
     
+    modelName="dandelin/vilt-b32-finetuned-vqa"
+    
     generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)
+    vilt = ViLT(modelName=modelName)
+    
+    print(generator.dataset[0])
+    
+    # vilt.predict()

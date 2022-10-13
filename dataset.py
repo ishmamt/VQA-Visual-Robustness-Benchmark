@@ -25,7 +25,7 @@ class VQADataset(Dataset):
             imagePrefix (string): Prefix of image names i.e. "COCO_train2014_".
     '''
     
-    def __init__(self, name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix=None):
+    def __init__(self, name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix):
         '''
         Constructor for the VQADataset class.
         
@@ -83,7 +83,7 @@ class VQADataset(Dataset):
             Returns:
                 item (tuple): Tuple containing the image, questions and annotations for the given index.
         '''
-        return None
+        return self.imageIds[index]
     
     
     def getImageIdsAndNames(self):

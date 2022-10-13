@@ -1,11 +1,13 @@
-# The Generator module. Given a dataset of images,
-# it can apply specified transformations.
+"""
+The Generator module. Given a dataset of images,
+it can apply specified transformations.
 
-# All transformation functions will also be
-# implemented here.
-# ================================================
-# ishmamt
-# ================================================
+All transformation functions will also be
+implemented here.
+================================================
+ishmamt
+================================================
+"""
 
 import cv2
 
@@ -21,7 +23,14 @@ class Generator():
     '''
 
     def __init__(self):
+        '''
+        Constructor for the Generator class.
+        
+                Parameters:
+                        pass
+        '''
         self.dataset = None
+
 
     def transformToGrayscale(self, idx):
         '''
@@ -37,6 +46,7 @@ class Generator():
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         return cv2.cvtColor(grayImage, cv2.COLOR_GRAY2BGR)
+
 
     def transformToGrayscaleInverted(self, idx):
         '''

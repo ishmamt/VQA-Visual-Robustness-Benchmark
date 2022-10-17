@@ -28,7 +28,7 @@ class Generator():
     def __init__(self, name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix=None):
         '''
         Constructor for the Generator class.
-        
+
             Parameters:
                 name (string): Name of the dataset type (train/val/test).
                 questionsJSON (string): Path to JSON file for the questions.
@@ -74,18 +74,18 @@ class Generator():
 
 if __name__ == "__main__":
     name = "val"
-    questionsJSON = r"..\Hierarchical-Co-attention-VQA\Data\val\questions\val_quest_3K.json"
-    annotationsJSON = r"..\Hierarchical-Co-attention-VQA\Data\val\annotations\val_ann_3K.json"
-    imageDirectory = r"..\Hierarchical-Co-attention-VQA\Data\val\images\val3K"
-    
-    modelName="dandelin/vilt-b32-finetuned-vqa"
-    
+    questionsJSON = r"..\Hierarchical Co-Attention\Data\VQA\val\questions\val_quest_3K.json"
+    annotationsJSON = r"..\Hierarchical Co-Attention\Data\VQA\val\annotations\val_ann_3K.json"
+    imageDirectory = r"..\Hierarchical Co-Attention\Data\VQA\val\images\val3K"
+
+    modelName = "dandelin/vilt-b32-finetuned-vqa"
+
     generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)
     vilt = ViLT(modelName=modelName)
-    
+
     for idx in range(0, 10):
         image, question, answer = generator.dataset[idx]
-        
+
         print(question)
         print(answer)
         print(vilt.predict(image, question))

@@ -19,6 +19,7 @@ class ViLT():
             processor (ViltProcessor):  The preprocessor for ViLT model.
             model (ViltForQuestionAnswering): The ViLT model.
     '''
+    
     def __init__(self, modelName):
         '''
         Constructor method for ViLT class.

@@ -83,16 +83,16 @@ class VQADataset(Dataset):
             Parameters:
                 index (int): Index of the itam from the VQA2.0 dataset.
             Returns:
-                item (tuple): Tuple containing the image, questions and annotations for the given index such as (image, [questions], [answers])
+                item (tuple): Tuple containing the image, questions and annotations for the given index such as (image, question, answer, imageId, questionId)
         '''
         questionId = self.questionIds[index]
-        imageID = self.ImageQuestionDictionary[questionId]
-        image = loadImage(self.imageDirectory, self.imageNames[imageID])
+        imageId = self.ImageQuestionDictionary[questionId]
+        image = loadImage(self.imageDirectory, self.imageNames[imageId])
 
         question = self.questionsDictionary[questionId]
         answer = self.answersDictionary[questionId]
 
-        return image, question, answer
+        return image, question, answer, imageId, questionId
 
 
     def getImageIdsAndNames(self):

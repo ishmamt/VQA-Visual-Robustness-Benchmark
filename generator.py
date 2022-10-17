@@ -84,7 +84,7 @@ if __name__ == "__main__":
     vilt = ViLT(modelName=modelName)
 
     for idx in range(0, 10):
-        image, question, answer = generator.dataset[idx]
+        image, question, answer, _, _ = generator.dataset[idx]
 
         print(question)
         print(answer)

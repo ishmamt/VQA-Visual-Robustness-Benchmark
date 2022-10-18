@@ -1,4 +1,4 @@
 opencv_python==4.5.3.56
-torch==1.12.1
+#torch==1.12.1
 tqdm==4.64.1
 transformers==4.22.2

@@ -103,6 +103,10 @@ if __name__ == "__main__":
     annotationsJSON = r"..\Hierarchical Co-Attention\Data\VQA\val\annotations\val_ann_3K.json"
     imageDirectory = r"..\Hierarchical Co-Attention\Data\VQA\val\images\val3K"
 
+    # annotationsJSON = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/annotations/val_ann_3K.json"
+    # questionsJSON = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/questions/val_quest_3K.json"
+    # imageDirectory = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/images/val3K"
+
     modelName = "dandelin/vilt-b32-finetuned-vqa"
 
     generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)

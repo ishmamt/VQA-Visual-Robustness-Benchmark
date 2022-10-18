@@ -57,7 +57,7 @@ class Generator():
         '''
         if saveOutputs:
             # Checks to see if the files and directories exist
-            if not os.path.exists(self.annotationsJSON):
+            if not os.path.exists(outputPath):
                 raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), outputPath)
 
         for transformation in transformationsList:

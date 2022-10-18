@@ -9,8 +9,9 @@ ishmamt
 ================================================
 """
 
-from email import generator
+import os
 import cv2
+import errno
 
 from dataset import VQADataset
 from models.vilt import ViLT
@@ -37,6 +38,30 @@ class Generator():
                 imagePrefix (string): Prefix of image names i.e. "COCO_train2014_".
         '''
         self.dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix)
+        self.validTransformations = ["Grayscale", "Grayscale-Inverse"]
+        
+    
+    def transform(self, transformationsList, saveOutputs=True, outputPath="."):
+        '''
+        Method to transform the whole image dataset, given the specified transformations.
+        
+            Parameters:
+                transformationsList (list): List of transformation methods to apply
+                saveOutputs (boolean): True if the transformed dataset is to be saved.
+                outputPath (string): Directory to save the transformed datasets.
+        
+            Returns:
+                transformedDatasets (list): The transformed dataset.
+        '''
+        if saveOutputs:
+            # Checks to see if the files and directories exist
+            if not os.path.exists(self.annotationsJSON):
+                raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.annotationsJSON)
+
+        for transformation in transformationsList:
+            if transformation not in self.validTransformations:
+                print("INVALID TRANSFORMATION")  # Put this in log
+                continue
 
 
     def transformToGrayscale(self, idx):
@@ -81,12 +106,13 @@ if __name__ == "__main__":
     modelName = "dandelin/vilt-b32-finetuned-vqa"
 
     generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)
-    vilt = ViLT(modelName=modelName)
+    # vilt = ViLT(modelName=modelName)
 
     for idx in range(0, 10):
-        image, question, answer, _, _ = generator.dataset[idx]
+        image, questions, answers, _, _ = generator.dataset[idx]
 
-        print(question)
-        print(answer)
-        print(vilt.predict(image, question))
-        print("\n\n")
+        for idx, question in enumerate(questions):
+            print(question)
+            print(answers[idx])
+            # print(vilt.predict(image, question))
+            print("\n\n")

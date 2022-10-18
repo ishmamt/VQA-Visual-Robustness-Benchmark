@@ -12,9 +12,11 @@ ishmamt
 import os
 import cv2
 import errno
+from tqdm import tqdm
 
 from dataset import VQADataset
 from models.vilt import ViLT
+from utils import saveImage
 
 
 class Generator():
@@ -56,12 +58,20 @@ class Generator():
         if saveOutputs:
             # Checks to see if the files and directories exist
             if not os.path.exists(self.annotationsJSON):
-                raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.annotationsJSON)
+                raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), outputPath)
 
         for transformation in transformationsList:
-            if transformation not in self.validTransformations:
-                print("INVALID TRANSFORMATION")  # Put this in log
-                continue
+            # if transformation not in self.validTransformations:
+            #     print("INVALID TRANSFORMATION")  # Put this in log
+            #     continue
+
+            pBar = tqdm(total=len(self.dataset))  # progress bar
+            # Loop over all images in the dataset
+            for imageId in range(len(self.dataset)):
+                pBar.update(1)
+                transformedImage = transformation(imageId)
+                if saveOutputs:
+                    saveImage(transformedImage, outputPath, self.dataset.imageNames[imageId])
 
 
     def transformToGrayscale(self, idx):
@@ -74,7 +84,7 @@ class Generator():
             Returns:
                 grayImage (numpy array): Grayscale image
         '''
-        image = self.dataset[idx]
+        image, _, _, _, _ = self.dataset[idx]
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         return cv2.cvtColor(grayImage, cv2.COLOR_GRAY2BGR)
@@ -90,7 +100,7 @@ class Generator():
             Returns:
                 invertedGrayImage (numpy array): Inverted grayscale image
         '''
-        image = self.dataset[idx]
+        image, _, _, _, _ = self.dataset[idx]
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         invertedGrayImage = 255.0 - grayImage
 
@@ -109,14 +119,18 @@ if __name__ == "__main__":
 
     modelName = "dandelin/vilt-b32-finetuned-vqa"
 
+
     generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)
+    transformationsList = [generator.transformToGrayscale]
     # vilt = ViLT(modelName=modelName)
 
-    for idx in range(0, 10):
-        image, questions, answers, _, _ = generator.dataset[idx]
+    # for idx in range(0, 10):
+    #     image, questions, answers, _, _ = generator.dataset[idx]
 
-        for idx, question in enumerate(questions):
-            print(question)
-            print(answers[idx])
-            # print(vilt.predict(image, question))
-            print("\n\n")
+    #     for idx, question in enumerate(questions):
+    #         print(question)
+    #         print(answers[idx])
+    #         print(vilt.predict(image, question))
+    #         print("\n\n")
+
+    generator.transform(transformationsList)

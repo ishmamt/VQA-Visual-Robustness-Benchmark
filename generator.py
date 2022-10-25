@@ -40,7 +40,10 @@ class Generator():
                 imagePrefix (string): Prefix of image names i.e. "COCO_train2014_".
         '''
         self.dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix)
-        self.validTransformations = ["Grayscale", "Grayscale-Inverse"]
+        self.validTransformations = {
+                                    "Grayscale": self.transformToGrayscale, 
+                                    "Grayscale-Inverse": self.transformToGrayscaleInverted
+                                    }
         
     
     def transform(self, transformationsList, saveOutputs=True, outputPath="."):
@@ -61,18 +64,22 @@ class Generator():
                 raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), outputPath)
 
         for transformation in transformationsList:
-            # if transformation not in self.validTransformations:
-            #     print("INVALID TRANSFORMATION")  # Put this in log
-            #     continue
+            if transformation not in self.validTransformations:
+                print("INVALID TRANSFORMATION")  # Put this in log
+                continue
 
+            if not os.path.exists(os.path.join(outputPath, transformation)):
+                os.makedirs(os.path.join(outputPath, transformation))
+            
             pBar = tqdm(total=len(self.dataset))  # progress bar
+            transformationMethod = self.validTransformations[transformation]  # getting the method
             # Loop over all images in the dataset
             for idx in range(len(self.dataset)):
                 pBar.update(1)
-                transformedImage = transformation(idx)
+                transformedImage = transformationMethod(idx)
                 if saveOutputs:
                     imageId = self.dataset.imageIds[idx]
-                    saveImage(transformedImage, outputPath, self.dataset.imageNames[imageId])
+                    saveImage(transformedImage, os.path.join(outputPath, transformation), self.dataset.imageNames[imageId])
 
 
     def transformToGrayscale(self, idx):
@@ -122,9 +129,9 @@ if __name__ == "__main__":
 
     modelName = "dandelin/vilt-b32-finetuned-vqa"
 
-
     generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)
-    transformationsList = [generator.transformToGrayscale]
+    transformationsList = ["Grayscale", "Grayscale-Inverse"]
+
     # vilt = ViLT(modelName=modelName)
 
     # for idx in range(0, 10):

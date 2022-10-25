@@ -9,14 +9,13 @@ ishmamt
 ================================================
 """
 
+from logging import exception
 import os
 import cv2
 import errno
 from tqdm import tqdm
 import numpy as np
 
-from dataset import VQADataset
-from models.vilt import ViLT
 from utils import saveImage
 
 
@@ -26,21 +25,20 @@ class Generator():
 
         Attributes:
             dataset (Dataset): The specified dataset to apply transformations.
-
+            validTransformations (dictionary): The dictionary of valid transformations such that: {"transformationName": transformationMethod}
+            logger (Logger): Logger object.
     '''
 
-    def __init__(self, name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix=None):
+    def __init__(self, dataset, logger):
         '''
         Constructor for the Generator class.
 
             Parameters:
-                name (string): Name of the dataset type (train/val/test).
-                questionsJSON (string): Path to JSON file for the questions.
-                annotationsJSON (string): Path to JSON file for the annotations.
-                imageDirectory (string): Image directory.
-                imagePrefix (string): Prefix of image names i.e. "COCO_train2014_".
+                dataset (Dataset): The specified dataset to apply transformations.
+                logger (Logger): Logger object.
         '''
-        self.dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix)
+        self.dataset = dataset
+        self.logger = logger
         self.validTransformations = {
                                     "Grayscale": self.transformToGrayscale, 
                                     "Grayscale-Inverse": self.transformToGrayscaleInverted
@@ -62,11 +60,12 @@ class Generator():
         if saveOutputs:
             # Checks to see if the files and directories exist
             if not os.path.exists(outputPath):
+                self.logger.error("Invalid outputPath to save images.")
                 raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), outputPath)
 
         for transformation in transformationsList:
             if transformation not in self.validTransformations:
-                print("INVALID TRANSFORMATION")  # Put this in log
+                self.logger.warning(f"Invalid transformation: {transformation}. It should be one of {self.validTransformations.keys()}")
                 continue
 
             if not os.path.exists(os.path.join(outputPath, transformation)):
@@ -74,13 +73,27 @@ class Generator():
             
             pBar = tqdm(total=len(self.dataset))  # progress bar
             transformationMethod = self.validTransformations[transformation]  # getting the method
+            self.logger.info(f"Starting the transformation: {transformation} over the dataset.")
+            savedCounter = 0  # A counter to figure out how many images were succesfully transformed and saved.
             # Loop over all images in the dataset
             for idx in range(len(self.dataset)):
                 pBar.update(1)
-                transformedImage = transformationMethod(idx)
+                try:
+                    transformedImage = transformationMethod(idx)
+                except exception as e:
+                    self.logger.error(f"{e} occured when using {transformation} on image number: {idx}.")
+                    continue
+                
                 if saveOutputs:
                     imageId = self.dataset.imageIds[idx]
-                    saveImage(transformedImage, os.path.join(outputPath, transformation), self.dataset.imageNames[imageId])
+                    try:
+                        saveImage(transformedImage, os.path.join(outputPath, transformation), self.dataset.imageNames[imageId])
+                        savedCounter += 1
+                    except exception as e:
+                        self.logger.error(f"Failed to save image number: {idx} because {e} occured.")
+                        continue
+            
+            self.logger.info(f"Saved {savedCounter} images for transformation: {transformation}.")
 
 
     def transformToGrayscale(self, idx):
@@ -115,34 +128,3 @@ class Generator():
         invertedGrayImage = np.float32(invertedGrayImage)
 
         return cv2.cvtColor(invertedGrayImage, cv2.COLOR_GRAY2BGR)
-
-
-if __name__ == "__main__":
-    name = "val"
-    questionsJSON = r"..\Hierarchical Co-Attention\Data\VQA\val\questions\val_quest_3K.json"
-    annotationsJSON = r"..\Hierarchical Co-Attention\Data\VQA\val\annotations\val_ann_3K.json"
-    imageDirectory = r"..\Hierarchical Co-Attention\Data\VQA\val\images\val3K"
-    outputPath = r"."
-
-    # annotationsJSON = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/annotations/val_ann_3K.json"
-    # questionsJSON = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/questions/val_quest_3K.json"
-    # imageDirectory = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/images/val3K"
-    # outputPath = "."
-
-    modelName = "dandelin/vilt-b32-finetuned-vqa"
-
-    generator = Generator(name, questionsJSON, annotationsJSON, imageDirectory)
-    transformationsList = ["Grayscale", "Grayscale-Inverse"]
-
-    # vilt = ViLT(modelName=modelName)
-
-    # for idx in range(0, 10):
-    #     image, questions, answers, _, _ = generator.dataset[idx]
-
-    #     for idx, question in enumerate(questions):
-    #         print(question)
-    #         print(answers[idx])
-    #         print(vilt.predict(image, question))
-    #         print("\n\n")
-
-    generator.transform(transformationsList, outputPath=outputPath)

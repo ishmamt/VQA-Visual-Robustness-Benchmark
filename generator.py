@@ -67,10 +67,11 @@ class Generator():
 
             pBar = tqdm(total=len(self.dataset))  # progress bar
             # Loop over all images in the dataset
-            for imageId in self.dataset.imageIds:
+            for idx in range(len(self.dataset)):
                 pBar.update(1)
-                transformedImage = transformation(imageId)
+                transformedImage = transformation(idx)
                 if saveOutputs:
+                    imageId = self.dataset.imageIds[idx]
                     saveImage(transformedImage, outputPath, self.dataset.imageNames[imageId])
 
 
@@ -135,4 +136,4 @@ if __name__ == "__main__":
     #         print(vilt.predict(image, question))
     #         print("\n\n")
 
-    generator.transform(transformationsList)
+    generator.transform(transformationsList, outputPath=outputPath)

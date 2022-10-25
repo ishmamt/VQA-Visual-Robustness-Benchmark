@@ -13,6 +13,7 @@ import os
 import cv2
 import errno
 from tqdm import tqdm
+import numpy as np
 
 from dataset import VQADataset
 from models.vilt import ViLT
@@ -111,6 +112,7 @@ class Generator():
         image, _, _, _, _ = self.dataset[idx]
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         invertedGrayImage = 255.0 - grayImage
+        invertedGrayImage = np.float32(invertedGrayImage)
 
         return cv2.cvtColor(invertedGrayImage, cv2.COLOR_GRAY2BGR)
 

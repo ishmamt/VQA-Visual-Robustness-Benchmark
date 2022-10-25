@@ -39,7 +39,7 @@ generator.transform(transformationsList, outputPath=outputPath)
 
 # # Loading a model
 # modelName = "dandelin/vilt-b32-finetuned-vqa"
-# vilt = ViLT(modelName=modelName, logger)
+# vilt = ViLT(modelName, logger)
 
 
 # # Computing accuracy

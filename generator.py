@@ -67,7 +67,7 @@ class Generator():
 
             pBar = tqdm(total=len(self.dataset))  # progress bar
             # Loop over all images in the dataset
-            for imageId in range(len(self.dataset)):
+            for imageId in self.dataset.imageIds:
                 pBar.update(1)
                 transformedImage = transformation(imageId)
                 if saveOutputs:
@@ -112,10 +112,12 @@ if __name__ == "__main__":
     questionsJSON = r"..\Hierarchical Co-Attention\Data\VQA\val\questions\val_quest_3K.json"
     annotationsJSON = r"..\Hierarchical Co-Attention\Data\VQA\val\annotations\val_ann_3K.json"
     imageDirectory = r"..\Hierarchical Co-Attention\Data\VQA\val\images\val3K"
+    outputPath = r"."
 
     # annotationsJSON = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/annotations/val_ann_3K.json"
     # questionsJSON = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/questions/val_quest_3K.json"
     # imageDirectory = "/content/drive/MyDrive/VQA/Hierarchical_Co-attention/Data/val/images/val3K"
+    # outputPath = "."
 
     modelName = "dandelin/vilt-b32-finetuned-vqa"
 

@@ -161,37 +161,38 @@ class Generator():
         return cv2.GaussianBlur(aliased_disk, ksize=ksize, sigmaX=alias_blur)
     
     
-    def transformToshot_noise(x, c=10):
+    def transformToshot_noise(self, idx, c=10):
+        x, _, _, _, _ = self.dataset[idx]
         x = x / 255.
         print(x.shape)
         new_img= np.clip(x+(np.random.poisson( size=x.shape, lam=.1)), 0, 1) * 255
         new_img=np.float32(new_img)
         return cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
     
-    def transformTogaussian_noise(x, severity=1):
+    def transformTogaussian_noise(self, idx, severity=1):
         c = [.08, .12, 0.18, 0.26, 0.38][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         new_img= np.clip(x + np.random.normal(size=x.shape, scale=c), 0, 1) * 255
         new_img=np.float32(new_img)
         return cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
     
-    def transformToimpulse_noise(x, severity=4):
+    def transformToimpulse_noise(self, idx, severity=4):
         c = [.03, .06, .09, 0.17, 0.27][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = sk.util.random_noise(np.array(x) / 255., mode='s&p', amount=c)
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformTospeckle_noise(x, severity=1):
+    def transformTospeckle_noise(self, idx, severity=1):
         c = [.15, .2, 0.35, 0.45, 0.6][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         return cv2.cvtColor(np.float32(np.clip(x + x * np.random.normal(size=x.shape, scale=c), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     
-    def transformTodefocus_blur(x, severity=1):
+    def transformTodefocus_blur(self, idx, severity=1):
         c = [(3, 0.1), (4, 0.5), (6, 0.5), (8, 0.5), (10, 0.5)][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         kernel = disk(radius=c[0], alias_blur=c[1])
 
@@ -201,10 +202,10 @@ class Generator():
         channels = np.array(channels).transpose((1, 2, 0))  # 3x224x224 -> 224x224x3
         return cv2.cvtColor(  np.float32(np.clip(channels, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformToglass_blur(x, severity=1):
+    def transformToglass_blur(self, idx, severity=1):
         # sigma, max_delta, iterations
         c = [(0.7, 1, 2), (0.9, 2, 1), (1, 2, 3), (1.1, 3, 2), (1.5, 4, 2)][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.uint8(gaussian(np.array(x) / 255., sigma=c[0], multichannel=True) * 255)
 
         # locally shuffle pixels
@@ -218,7 +219,8 @@ class Generator():
 
         return cv2.cvtColor(np.float32(np.clip(gaussian(x / 255., sigma=c[0], multichannel=True), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def clipped_zoom(img, zoom_factor):
+    def clipped_zoom(self, idx, zoom_factor):
+        img, _, _, _, _ = self.dataset[idx]
         h = img.shape[0]
         # ceil crop height(= crop width)
         ch = int(np.ceil(h / float(zoom_factor)))
@@ -236,13 +238,13 @@ class Generator():
         return img[trim_top:trim_top + h, trim_side:trim_side + w]
     
     
-    def transformTozoom_blur(x, severity=1):
+    def transformTozoom_blur(self, idx, severity=1):
         c = [np.arange(1, 1.11, 0.01),
              np.arange(1, 1.16, 0.01),
              np.arange(1, 1.21, 0.02),
              np.arange(1, 1.26, 0.02),
              np.arange(1, 1.31, 0.03)][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = (np.array(x) / 255.).astype(np.float32)
         out = np.zeros_like(x)
         #print(out.shape)
@@ -257,13 +259,13 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     
-    def transformTosnow(x, severity=1):
+    def transformTosnow(self, idx, severity=1):
         c = [(0.1, 0.3, 3, 0.5, 10, 4, 0.8),
              (0.2, 0.3, 2, 0.5, 12, 4, 0.7),
              (0.55, 0.3, 4, 0.9, 12, 8, 0.7),
              (0.55, 0.3, 4.5, 0.85, 12, 8, 0.65),
              (0.55, 0.3, 2.5, 0.85, 12, 12, 0.55)][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x, dtype=np.float32) / 255.
         snow_layer = np.random.normal(size=x.shape[:2], loc=c[0], scale=c[1])  # [:2] for monochrome
 
@@ -285,29 +287,30 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(x + snow_layer + np.rot90(snow_layer, k=2), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     
-    def transformTobrightness(x, severity=5):
+    def transformTobrightness(self, idx, severity=5):
         c = [.1, .2, .3, .4, .5][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         x = sk.color.rgb2hsv(x)
         x[:, :, 2] = np.clip(x[:, :, 2] + c, 0, 1)
         x = sk.color.hsv2rgb(x)
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformTocontrast(x, severity=1):
+    def transformTocontrast(self, idx, severity=1):
         c = [0.4, .3, .2, .1, .05][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         means = np.mean(x, axis=(0, 1), keepdims=True)
         #return np.clip((x - means) * c + means, 0, 1) * 255
         return cv2.cvtColor(np.float32(np.clip((x - means) * c + means, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformToelastic_transform(image, severity=5):
+    def transformToelastic_transform(self, idx, severity=5):
         c = [(244 * 2, 244 * 0.7, 244 * 0.1),   # 244 should have been 224, but ultimately nothing is incorrect
              (244 * 2, 244 * 0.08, 244 * 0.2),
              (244 * 0.05, 244 * 0.01, 244 * 0.02),
              (244 * 0.07, 244 * 0.01, 244 * 0.02),
              (244 * 0.12, 244 * 0.01, 244 * 0.02)][severity - 1]
+        image, _, _, _, _ = self.dataset[idx]
 
         image = np.array(image, dtype=np.float32) / 255.
         shape = image.shape
@@ -335,8 +338,9 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(map_coordinates(image, indices, order=1, mode='reflect').reshape(shape), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     
-    def transformTopixelate(x, severity=5):
+    def transformTopixelate(self, idx, severity=5):
         c = [0.6, 0.5, 0.4, 0.3, 0.15][severity - 1]
+        img, _, _, _, _ = self.dataset[idx]
         img = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
         width = int(x.shape[1] * c)
         height = int(x.shape[0] * c)
@@ -344,18 +348,20 @@ class Generator():
         resized = cv2.resize(x, dim, interpolation = cv2.INTER_AREA)
         return cv2.cvtColor(np.float32(resized), cv2.COLOR_BGR2RGB)
     
-    def transformTojpeg_compression(x, severity=5):
+    def transformTojpeg_compression(self, idx, severity=5):
         c = [25, 18, 15, 10, 7][severity - 1]
+        x, _, _, _, _ = self.dataset[idx]
         cv2.imwrite("parrot_saved.jpg", x, [int(cv2.IMWRITE_JPEG_QUALITY), c]) 
         temp = imread("parrot_saved.jpg")
         return temp
     
-    def transformTospatter(x, severity=4):
+    def transformTospatter(self, idx, severity=4):
         c = [(0.65, 0.3, 4, 0.69, 0.6, 0),
              (0.65, 0.3, 3, 0.68, 0.6, 0),
              (0.65, 0.3, 2, 0.68, 0.5, 0),
              (0.65, 0.3, 1, 0.65, 1.5, 1),
              (0.67, 0.4, 1, 0.65, 1.5, 1)][severity - 1]
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x, dtype=np.float32) / 255.
 
         liquid_layer = np.random.normal(size=x.shape[:2], loc=c[0], scale=c[1])
@@ -402,9 +408,9 @@ class Generator():
             return cv2.cvtColor(np.float32(np.clip(x + color, 0, 1) * 255), cv2.COLOR_BGR2RGB)
 
     
-    def transformTosaturate(x, severity=1):
+    def transformTosaturate(self, idx, severity=1):
         c = [(0.3, 0), (0.1, 0), (2, 0), (5, 0.1), (20, 0.2)][severity - 1]
-
+        x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         x = sk.color.rgb2hsv(x)  
         x[:, :, 1] = np.clip(x[:, :, 1] * c[0] + c[1], 0, 1)

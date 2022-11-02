@@ -219,8 +219,7 @@ class Generator():
 
         return cv2.cvtColor(np.float32(np.clip(gaussian(x / 255., sigma=c[0], multichannel=True), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def clipped_zoom(self, idx, zoom_factor):
-        img, _, _, _, _ = self.dataset[idx]
+    def clipped_zoom(img, zoom_factor):
         h = img.shape[0]
         # ceil crop height(= crop width)
         ch = int(np.ceil(h / float(zoom_factor)))

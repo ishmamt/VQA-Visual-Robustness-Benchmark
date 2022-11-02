@@ -257,7 +257,16 @@ class Generator():
         #return np.clip(x, 0, 1) * 255
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
+    wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
+                                              ctypes.c_double,  # radius
+                                              ctypes.c_double,  # sigma
+                                              ctypes.c_double)  # angle
     
+    
+    class MotionImage(WandImage):
+        def motion_blur(self, radius=0.0, sigma=0.0, angle=0.0):
+            wandlibrary.MagickMotionBlurImage(self.wand, radius, sigma, angle)
+            
     def transformTosnow(self, idx, severity=1):
         c = [(0.1, 0.3, 3, 0.5, 10, 4, 0.8),
              (0.2, 0.3, 2, 0.5, 12, 4, 0.7),

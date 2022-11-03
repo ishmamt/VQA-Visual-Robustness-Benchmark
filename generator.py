@@ -11,7 +11,6 @@ Nipun
 """
 
 from logging import exception
-import os
 import cv2
 import errno
 from tqdm import tqdm
@@ -20,7 +19,6 @@ from imageio import imread
 import skimage as sk
 from skimage.filters import gaussian
 from io import BytesIO
-import ctypes
 from PIL import Image as PILImage
 from scipy.ndimage import zoom as scizoom
 from scipy.ndimage.interpolation import map_coordinates
@@ -140,7 +138,7 @@ class Generator():
         return cv2.cvtColor(invertedGrayImage, cv2.COLOR_GRAY2BGR)
     
     
-    def disk(radius, alias_blur=0.1, dtype=np.float32):
+    def disk(self, radius, alias_blur=0.1, dtype=np.float32):
         if radius <= 8:
             L = np.arange(-8, 8 + 1)
             ksize = (3, 3)
@@ -421,10 +419,10 @@ class Generator():
 
 
 
-wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
-                                              ctypes.c_double,  # radius
-                                              ctypes.c_double,  # sigma
-                                              ctypes.c_double)  # angle
+# wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
+#                                               ctypes.c_double,  # radius
+#                                               ctypes.c_double,  # sigma
+#                                               ctypes.c_double)  # angle
 
 
 class MotionImage(WandImage):

@@ -254,10 +254,6 @@ class Generator():
         #return np.clip(x, 0, 1) * 255
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    # wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
-    #                                           ctypes.c_double,  # radius
-    #                                           ctypes.c_double,  # sigma
-    #                                           ctypes.c_double)  # angle
     
     
     # class MotionImage(WandImage):

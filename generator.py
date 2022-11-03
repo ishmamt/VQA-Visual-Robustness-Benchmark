@@ -155,15 +155,20 @@ class Generator():
         return cv2.GaussianBlur(aliased_disk, ksize=ksize, sigmaX=alias_blur)
     
     
-    def transformToshot_noise(self, idx, c=10):
+    def transformToshot_noise(self, idx, severity=5):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
+        c = [.08, .2, 0.5, 0.8, 1.2][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = x / 255.
-        print(x.shape)
-        new_img= np.clip(x+(np.random.poisson( size=x.shape, lam=.1)), 0, 1) * 255
+        new_img= np.clip(x+(np.random.poisson( size=x.shape, lam=c)), 0, 1) * 255
         new_img=np.float32(new_img)
         return cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
+
     
     def transformTogaussian_noise(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5") 
         c = [.08, .12, 0.18, 0.26, 0.38][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
@@ -172,12 +177,16 @@ class Generator():
         return cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
     
     def transformToimpulse_noise(self, idx, severity=4):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [.03, .06, .09, 0.17, 0.27][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = sk.util.random_noise(np.array(x) / 255., mode='s&p', amount=c)
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     def transformTospeckle_noise(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [.15, .2, 0.35, 0.45, 0.6][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
@@ -185,6 +194,8 @@ class Generator():
     
     
     def transformTodefocus_blur(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [(3, 0.1), (4, 0.5), (6, 0.5), (8, 0.5), (10, 0.5)][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
@@ -197,6 +208,8 @@ class Generator():
         return cv2.cvtColor(  np.float32(np.clip(channels, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     def transformToglass_blur(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         # sigma, max_delta, iterations
         c = [(0.7, 1, 2), (0.9, 2, 1), (1, 2, 3), (1.1, 3, 2), (1.5, 4, 2)][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
@@ -232,6 +245,8 @@ class Generator():
     
     
     def transformTozoom_blur(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [np.arange(1, 1.11, 0.01),
              np.arange(1, 1.16, 0.01),
              np.arange(1, 1.21, 0.02),
@@ -251,13 +266,10 @@ class Generator():
         #return np.clip(x, 0, 1) * 255
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    
-    
-    # class MotionImage(WandImage):
-    #     def motion_blur(self, radius=0.0, sigma=0.0, angle=0.0):
-    #         wandlibrary.MagickMotionBlurImage(self.wand, radius, sigma, angle)
             
     def transformTosnow(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [(0.1, 0.3, 3, 0.5, 10, 4, 0.8),
              (0.2, 0.3, 2, 0.5, 12, 4, 0.7),
              (0.55, 0.3, 4, 0.9, 12, 8, 0.7),
@@ -286,6 +298,8 @@ class Generator():
     
     
     def transformTobrightness(self, idx, severity=5):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [.1, .2, .3, .4, .5][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
@@ -295,6 +309,8 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     def transformTocontrast(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [0.4, .3, .2, .1, .05][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
@@ -303,6 +319,8 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip((x - means) * c + means, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     def transformToelastic_transform(self, idx, severity=5):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [(244 * 2, 244 * 0.7, 244 * 0.1),   # 244 should have been 224, but ultimately nothing is incorrect
              (244 * 2, 244 * 0.08, 244 * 0.2),
              (244 * 0.05, 244 * 0.01, 244 * 0.02),
@@ -337,6 +355,8 @@ class Generator():
     
     
     def transformTopixelate(self, idx, severity=5):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [0.6, 0.5, 0.4, 0.3, 0.15][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         # x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
@@ -347,6 +367,8 @@ class Generator():
         return cv2.cvtColor(np.float32(resized), cv2.COLOR_BGR2RGB)
     
     def transformTojpeg_compression(self, idx, severity=5):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [25, 18, 15, 10, 7][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         cv2.imwrite("parrot_saved.jpg", x, [int(cv2.IMWRITE_JPEG_QUALITY), c]) 
@@ -354,6 +376,8 @@ class Generator():
         return temp
     
     def transformTospatter(self, idx, severity=4):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [(0.65, 0.3, 4, 0.69, 0.6, 0),
              (0.65, 0.3, 3, 0.68, 0.6, 0),
              (0.65, 0.3, 2, 0.68, 0.5, 0),
@@ -407,6 +431,8 @@ class Generator():
 
     
     def transformTosaturate(self, idx, severity=1):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
         c = [(0.3, 0), (0.1, 0), (2, 0), (5, 0.1), (20, 0.2)][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.

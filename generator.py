@@ -25,7 +25,6 @@ from scipy.ndimage.interpolation import map_coordinates
 import os
 from wand.image import Image as WandImage
 from wand.api import library as wandlibrary
-import wand.color as WandColor
 
 from utils import saveImage
 
@@ -214,7 +213,7 @@ class Generator():
 
         return cv2.cvtColor(np.float32(np.clip(gaussian(x / 255., sigma=c[0], multichannel=True), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def clipped_zoom(img, zoom_factor):
+    def clipped_zoom(self, img, zoom_factor):
         h = img.shape[0]
         # ceil crop height(= crop width)
         ch = int(np.ceil(h / float(zoom_factor)))
@@ -340,7 +339,7 @@ class Generator():
     def transformTopixelate(self, idx, severity=5):
         c = [0.6, 0.5, 0.4, 0.3, 0.15][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
-        x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
+        # x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
         width = int(x.shape[1] * c)
         height = int(x.shape[0] * c)
         dim = (width, height)
@@ -390,7 +389,7 @@ class Generator():
             color = cv2.cvtColor(color, cv2.COLOR_BGR2BGRA)
             x = cv2.cvtColor(x, cv2.COLOR_BGR2BGRA)
 
-            return cv2.cvtColor(np.clip(x + m * color, 0, 1), cv2.COLOR_BGRA2BGR) * 255
+            return cv2.cvtColor(np.clip(x + m * color, 0, 1), cv2.COLOR_BGRA2RGB) * 255
         else:
             m = np.where(liquid_layer > c[3], 1, 0)
             m = gaussian(m.astype(np.float32), sigma=c[4])

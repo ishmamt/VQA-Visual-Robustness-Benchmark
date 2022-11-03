@@ -244,7 +244,7 @@ class Generator():
         return img[trim_top:trim_top + h, trim_side:trim_side + w]
     
     
-    def transformTozoom_blur(self, idx, severity=1):
+    def transformTozoom_blur(self, idx, s=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [np.arange(1, 1.11, 0.01),

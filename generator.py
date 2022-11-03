@@ -156,13 +156,16 @@ class Generator():
         return cv2.GaussianBlur(aliased_disk, ksize=ksize, sigmaX=alias_blur)
     
     
-    def transformToshot_noise(self, idx, c=10):
+     def transformToshot_noise(self, idx, severity=5):
+        if(severity>5):
+            raise Exception("Greater than severity, severity must be <=5")
+        c = [.08, .2, 0.5, 0.8, 1.2][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = x / 255.
-        print(x.shape)
-        new_img= np.clip(x+(np.random.poisson( size=x.shape, lam=.1)), 0, 1) * 255
+        new_img= np.clip(x+(np.random.poisson( size=x.shape, lam=c)), 0, 1) * 255
         new_img=np.float32(new_img)
         return cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
+
     
     def transformTogaussian_noise(self, idx, severity=1):
         if(severity>5):

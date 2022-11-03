@@ -25,6 +25,9 @@ from PIL import Image as PILImage
 from scipy.ndimage import zoom as scizoom
 from scipy.ndimage.interpolation import map_coordinates
 import os
+from wand.image import Image as WandImage
+from wand.api import library as wandlibrary
+import wand.color as WandColor
 
 from utils import saveImage
 

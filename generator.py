@@ -23,6 +23,9 @@ from PIL import Image as PILImage
 from scipy.ndimage import zoom as scizoom
 from scipy.ndimage.interpolation import map_coordinates
 import os
+from wand.image import Image as WandImage
+from wand.api import library as wandlibrary
+import wand.color as WandColor
 
 from utils import saveImage
 
@@ -249,10 +252,6 @@ class Generator():
         #return np.clip(x, 0, 1) * 255
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    # wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
-    #                                           ctypes.c_double,  # radius
-    #                                           ctypes.c_double,  # sigma
-    #                                           ctypes.c_double)  # angle
     
     
     # class MotionImage(WandImage):

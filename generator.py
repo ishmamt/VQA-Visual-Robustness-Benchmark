@@ -17,10 +17,6 @@ import errno
 from tqdm import tqdm
 import numpy as np
 from imageio import imread
-from matplotlib import image
-from matplotlib import pyplot as plt
-import math
-from PIL import Image
 import skimage as sk
 from skimage.filters import gaussian
 from io import BytesIO
@@ -28,9 +24,7 @@ import ctypes
 from PIL import Image as PILImage
 from scipy.ndimage import zoom as scizoom
 from scipy.ndimage.interpolation import map_coordinates
-import warnings
 import os
-from pkg_resources import resource_filename
 
 from utils import saveImage
 
@@ -194,7 +188,7 @@ class Generator():
         c = [(3, 0.1), (4, 0.5), (6, 0.5), (8, 0.5), (10, 0.5)][severity - 1]
         x, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
-        kernel = disk(radius=c[0], alias_blur=c[1])
+        kernel = self.disk(radius=c[0], alias_blur=c[1])
 
         channels = []
         for d in range(3):
@@ -248,7 +242,7 @@ class Generator():
         out = np.zeros_like(x)
         #print(out.shape)
         for zoom_factor in c:
-            temp=clipped_zoom(x, zoom_factor)
+            temp = self.clipped_zoom(x, zoom_factor)
             #print(temp.shape)
             out += temp
 
@@ -257,15 +251,15 @@ class Generator():
         #return np.clip(x, 0, 1) * 255
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
-                                              ctypes.c_double,  # radius
-                                              ctypes.c_double,  # sigma
-                                              ctypes.c_double)  # angle
+    # wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
+    #                                           ctypes.c_double,  # radius
+    #                                           ctypes.c_double,  # sigma
+    #                                           ctypes.c_double)  # angle
     
     
-    class MotionImage(WandImage):
-        def motion_blur(self, radius=0.0, sigma=0.0, angle=0.0):
-            wandlibrary.MagickMotionBlurImage(self.wand, radius, sigma, angle)
+    # class MotionImage(WandImage):
+    #     def motion_blur(self, radius=0.0, sigma=0.0, angle=0.0):
+    #         wandlibrary.MagickMotionBlurImage(self.wand, radius, sigma, angle)
             
     def transformTosnow(self, idx, severity=1):
         c = [(0.1, 0.3, 3, 0.5, 10, 4, 0.8),
@@ -277,7 +271,7 @@ class Generator():
         x = np.array(x, dtype=np.float32) / 255.
         snow_layer = np.random.normal(size=x.shape[:2], loc=c[0], scale=c[1])  # [:2] for monochrome
 
-        snow_layer = clipped_zoom(snow_layer[..., np.newaxis], c[2])
+        snow_layer = self.clipped_zoom(snow_layer[..., np.newaxis], c[2])
         snow_layer[snow_layer < c[3]] = 0
 
         snow_layer = PILImage.fromarray((np.clip(snow_layer.squeeze(), 0, 1) * 255).astype(np.uint8), mode='L')
@@ -348,8 +342,8 @@ class Generator():
     
     def transformTopixelate(self, idx, severity=5):
         c = [0.6, 0.5, 0.4, 0.3, 0.15][severity - 1]
-        img, _, _, _, _ = self.dataset[idx]
-        img = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
+        x, _, _, _, _ = self.dataset[idx]
+        x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
         width = int(x.shape[1] * c)
         height = int(x.shape[0] * c)
         dim = (width, height)
@@ -424,3 +418,15 @@ class Generator():
         x[:, :, 1] = np.clip(x[:, :, 1] * c[0] + c[1], 0, 1)
         x = sk.color.hsv2rgb(x)
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
+
+
+
+wandlibrary.MagickMotionBlurImage.argtypes = (ctypes.c_void_p,  # wand
+                                              ctypes.c_double,  # radius
+                                              ctypes.c_double,  # sigma
+                                              ctypes.c_double)  # angle
+
+
+class MotionImage(WandImage):
+    def motion_blur(self, radius=0.0, sigma=0.0, angle=0.0):
+        wandlibrary.MagickMotionBlurImage(self.wand, radius, sigma, angle)

@@ -1,11 +1,10 @@
 imageio==2.22.3
-matplotlib==3.5.3
 numpy==1.21.6
 opencv_python==4.5.3.56
 Pillow==9.3.0
-scipy==1.9.3
-setuptools==63.4.1
-skimage
+scikit_image==0.19.3
+scipy==1.7.3
+scikit-image==0.19.3
 #torch==1.12.1
 tqdm==4.64.1
 transformers==4.22.2

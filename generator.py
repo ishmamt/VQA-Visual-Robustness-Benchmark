@@ -157,12 +157,15 @@ class Generator():
                 os.makedirs(os.path.join(outputPath, transformation))
             
             pBar = tqdm(total=len(self.dataset))  # progress bar
-            transformationMethod = self.validTransformations[transformation]  # getting the method
+            transformationTuple = self.validTransformations[transformation]  # getting the tuple/method from dictionary
             severity = None
             
-            if type(transformationMethod) == "tuple":
-                transformationMethod = transformationMethod[0]
-                severity = transformationMethod[1]
+            if isinstance(transformationTuple, tuple):
+                transformationMethod = transformationTuple[0]
+                severity = transformationTuple[1]
+
+            else:
+                transformationMethod = transformationTuple
                 
             self.logger.info(f"Starting the transformation: {transformation} over the dataset.")
             savedCounter = 0  # A counter to figure out how many images were succesfully transformed and saved.

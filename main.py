@@ -33,7 +33,7 @@ dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, image
 logger.info("VQA2.0 dataset loaded.")
 
 generator = Generator(dataset, logger)
-transformationsList = ["Grayscale", "Grayscale-Inverse"]
+transformationsList = ["Zoom-Blur_L1", "Elastic_L2"]
 generator.transform(transformationsList, outputPath=outputPath)
 
 

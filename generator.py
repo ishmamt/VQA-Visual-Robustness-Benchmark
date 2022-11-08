@@ -51,7 +51,82 @@ class Generator():
         self.logger = logger
         self.validTransformations = {
                                     "Grayscale": self.transformToGrayscale, 
-                                    "Grayscale-Inverse": self.transformToGrayscaleInverted
+                                    "Grayscale-Inverse": self.transformToGrayscaleInverted,
+                                    "Shot-noise_L1": (self.transformToShotNoise, 1),
+                                    "Shot-noise_L2": (self.transformToShotNoise, 2),
+                                    "Shot-noise_L3": (self.transformToShotNoise, 3),
+                                    "Shot-noise_L4": (self.transformToShotNoise, 4),
+                                    "Shot-noise_L5": (self.transformToShotNoise, 5),
+                                    "Gaussian-noise_L1": (self.transformToGaussianNoise, 1),
+                                    "Gaussian-noise_L2": (self.transformToGaussianNoise, 2),
+                                    "Gaussian-noise_L3": (self.transformToGaussianNoise, 3),
+                                    "Gaussian-noise_L4": (self.transformToGaussianNoise, 4),
+                                    "Gaussian-noise_L5": (self.transformToGaussianNoise, 5),
+                                    "Impulse-noise_L1": (self.transformToImpulseNoise, 1),
+                                    "Impulse-noise_L2": (self.transformToImpulseNoise, 2),
+                                    "Impulse-noise_L3": (self.transformToImpulseNoise, 3),
+                                    "Impulse-noise_L4": (self.transformToImpulseNoise, 4),
+                                    "Impulse-noise_L5": (self.transformToImpulseNoise, 5),
+                                    "Speckle-noise_L1": (self.transformToSpeckleNoise, 1),
+                                    "Speckle-noise_L2": (self.transformToSpeckleNoise, 2),
+                                    "Speckle-noise_L3": (self.transformToSpeckleNoise, 3),
+                                    "Speckle-noise_L4": (self.transformToSpeckleNoise, 4),
+                                    "Speckle-noise_L5": (self.transformToSpeckleNoise, 5),
+                                    "Defocus-blur_L1": (self.transformToDefocusBlur, 1),
+                                    "Defocus-blur_L2": (self.transformToDefocusBlur, 2),
+                                    "Defocus-blur_L3": (self.transformToDefocusBlur, 3),
+                                    "Defocus-blur_L4": (self.transformToDefocusBlur, 4),
+                                    "Defocus-blur_L5": (self.transformToDefocusBlur, 5),
+                                    "Glass-blur_L1": (self.transformToGlassBlur, 1),
+                                    "Glass-blur_L2": (self.transformToGlassBlur, 2),
+                                    "Glass-blur_L3": (self.transformToGlassBlur, 3),
+                                    "Glass-blur_L4": (self.transformToGlassBlur, 4),
+                                    "Glass-blur_L5": (self.transformToGlassBlur, 5),
+                                    "Zoom-Blur_L1": (self.transformToZoomBlur, 1),
+                                    "Zoom-Blur_L2": (self.transformToZoomBlur, 2),
+                                    "Zoom-Blur_L3": (self.transformToZoomBlur, 3),
+                                    "Zoom-Blur_L4": (self.transformToZoomBlur, 4),
+                                    "Zoom-Blur_L5": (self.transformToZoomBlur, 5),
+                                    "Snow_L1": (self.transformToSnow, 1),
+                                    "Snow_L2": (self.transformToSnow, 2),
+                                    "Snow_L3": (self.transformToSnow, 3),
+                                    "Snow_L4": (self.transformToSnow, 4),
+                                    "Snow_L5": (self.transformToSnow, 5),
+                                    "Brightness_L1": (self.transformToBrightness, 1),
+                                    "Brightness_L2": (self.transformToBrightness, 2),
+                                    "Brightness_L3": (self.transformToBrightness, 3),
+                                    "Brightness_L4": (self.transformToBrightness, 4),
+                                    "Brightness_L5": (self.transformToBrightness, 5),
+                                    "Contrast_L1": (self.transformToContrast, 1),
+                                    "Contrast_L2": (self.transformToContrast, 2),
+                                    "Contrast_L3": (self.transformToContrast, 3),
+                                    "Contrast_L4": (self.transformToContrast, 4),
+                                    "Contrast_L5": (self.transformToContrast, 5),
+                                    "Saturation_L1": (self.transformToSaturate, 1),
+                                    "Saturation_L2": (self.transformToSaturate, 2),
+                                    "Saturation_L3": (self.transformToSaturate, 3),
+                                    "Saturation_L4": (self.transformToSaturate, 4),
+                                    "Saturation_L5": (self.transformToSaturate, 5),
+                                    "Elastic_L1": (self.transformToElastic, 1),
+                                    "Elastic_L2": (self.transformToElastic, 2),
+                                    "Elastic_L3": (self.transformToElastic, 3),
+                                    "Elastic_L4": (self.transformToElastic, 4),
+                                    "Elastic_L5": (self.transformToElastic, 5),
+                                    "Pixelate_L1": (self.transformToPixelate, 1),
+                                    "Pixelate_L2": (self.transformToPixelate, 2),
+                                    "Pixelate_L3": (self.transformToPixelate, 3),
+                                    "Pixelate_L4": (self.transformToPixelate, 4),
+                                    "Pixelate_L5": (self.transformToPixelate, 5),
+                                    "JPEG-compression_L1": (self.transformToJpegCompression, 1),
+                                    "JPEG-compression_L2": (self.transformToJpegCompression, 2),
+                                    "JPEG-compression_L3": (self.transformToJpegCompression, 3),
+                                    "JPEG-compression_L4": (self.transformToJpegCompression, 4),
+                                    "JPEG-compression_L5": (self.transformToJpegCompression, 5),
+                                    "Spatter_L1": (self.transformToSpatter, 1),
+                                    "Spatter_L2": (self.transformToSpatter, 2),
+                                    "Spatter_L3": (self.transformToSpatter, 3),
+                                    "Spatter_L4": (self.transformToSpatter, 4),
+                                    "Spatter_L5": (self.transformToSpatter, 5)
                                     }
         
     
@@ -83,13 +158,25 @@ class Generator():
             
             pBar = tqdm(total=len(self.dataset))  # progress bar
             transformationMethod = self.validTransformations[transformation]  # getting the method
+            severity = None
+            
+            if type(transformationMethod) == "tuple":
+                transformationMethod = transformationMethod[0]
+                severity = transformationMethod[1]
+                
             self.logger.info(f"Starting the transformation: {transformation} over the dataset.")
             savedCounter = 0  # A counter to figure out how many images were succesfully transformed and saved.
+            
             # Loop over all images in the dataset
             for idx in range(len(self.dataset)):
                 pBar.update(1)
                 try:
-                    transformedImage = transformationMethod(idx)
+                    if severity:
+                        transformedImage = transformationMethod(idx, severity)
+                    
+                    else:
+                        transformedImage = transformationMethod(idx)
+                
                 except exception as e:
                     self.logger.error(f"{e} occured when using {transformation} on image number: {idx}.")
                     continue
@@ -155,7 +242,7 @@ class Generator():
         return cv2.GaussianBlur(aliased_disk, ksize=ksize, sigmaX=alias_blur)
     
     
-    def transformToshot_noise(self, idx, severity=5):
+    def transformToShotNoise(self, idx, severity=5):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.08, .2, 0.5, 0.8, 1.2][severity - 1]
@@ -166,7 +253,7 @@ class Generator():
         return cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
 
     
-    def transformTogaussian_noise(self, idx, severity=1):
+    def transformToGaussianNoise(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5") 
         c = [.08, .12, 0.18, 0.26, 0.38][severity - 1]
@@ -176,7 +263,8 @@ class Generator():
         new_img=np.float32(new_img)
         return cv2.cvtColor(new_img, cv2.COLOR_BGR2RGB)
     
-    def transformToimpulse_noise(self, idx, severity=4):
+    
+    def transformToImpulseNoise(self, idx, severity=4):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.03, .06, .09, 0.17, 0.27][severity - 1]
@@ -184,7 +272,8 @@ class Generator():
         x = sk.util.random_noise(np.array(x) / 255., mode='s&p', amount=c)
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformTospeckle_noise(self, idx, severity=1):
+    
+    def transformToSpeckleNoise(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.15, .2, 0.35, 0.45, 0.6][severity - 1]
@@ -193,7 +282,7 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(x + x * np.random.normal(size=x.shape, scale=c), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     
-    def transformTodefocus_blur(self, idx, severity=1):
+    def transformToDefocusBlur(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [(3, 0.1), (4, 0.5), (6, 0.5), (8, 0.5), (10, 0.5)][severity - 1]
@@ -207,7 +296,8 @@ class Generator():
         channels = np.array(channels).transpose((1, 2, 0))  # 3x224x224 -> 224x224x3
         return cv2.cvtColor(  np.float32(np.clip(channels, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformToglass_blur(self, idx, severity=1):
+    
+    def transformToGlassBlur(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         # sigma, max_delta, iterations
@@ -225,6 +315,7 @@ class Generator():
                     x[h, w], x[h_prime, w_prime] = x[h_prime, w_prime], x[h, w]
 
         return cv2.cvtColor(np.float32(np.clip(gaussian(x / 255., sigma=c[0], multichannel=True), 0, 1) * 255), cv2.COLOR_BGR2RGB)
+    
     
     def clipped_zoom(self, img, zoom_factor):
         h = img.shape[0]
@@ -244,7 +335,7 @@ class Generator():
         return img[trim_top:trim_top + h, trim_side:trim_side + w]
     
     
-    def transformTozoom_blur(self, idx, severity=1):
+    def transformToZoomBlur(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [np.arange(1, 1.11, 0.01),
@@ -267,7 +358,7 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
             
-    def transformTosnow(self, idx, severity=1):
+    def transformToSnow(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [(0.1, 0.3, 3, 0.5, 10, 4, 0.8),
@@ -297,7 +388,7 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(x + snow_layer + np.rot90(snow_layer, k=2), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     
-    def transformTobrightness(self, idx, severity=5):
+    def transformToBrightness(self, idx, severity=5):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.1, .2, .3, .4, .5][severity - 1]
@@ -308,7 +399,8 @@ class Generator():
         x = sk.color.hsv2rgb(x)
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformTocontrast(self, idx, severity=1):
+    
+    def transformToContrast(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [0.4, .3, .2, .1, .05][severity - 1]
@@ -318,7 +410,8 @@ class Generator():
         #return np.clip((x - means) * c + means, 0, 1) * 255
         return cv2.cvtColor(np.float32(np.clip((x - means) * c + means, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
-    def transformToelastic_transform(self, idx, severity=5):
+    
+    def transformToElastic(self, idx, severity=5):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [(244 * 2, 244 * 0.7, 244 * 0.1),   # 244 should have been 224, but ultimately nothing is incorrect
@@ -354,7 +447,7 @@ class Generator():
         return cv2.cvtColor(np.float32(np.clip(map_coordinates(image, indices, order=1, mode='reflect').reshape(shape), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
     
-    def transformTopixelate(self, idx, severity=5):
+    def transformToPixelate(self, idx, severity=5):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [0.6, 0.5, 0.4, 0.3, 0.15][severity - 1]
@@ -366,7 +459,8 @@ class Generator():
         resized = cv2.resize(x, dim, interpolation = cv2.INTER_AREA)
         return cv2.cvtColor(np.float32(resized), cv2.COLOR_BGR2RGB)
     
-    def transformTojpeg_compression(self, idx, severity=5):
+    
+    def transformToJpegCompression(self, idx, severity=5):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [25, 18, 15, 10, 7][severity - 1]
@@ -375,7 +469,8 @@ class Generator():
         temp = imread("parrot_saved.jpg")
         return temp
     
-    def transformTospatter(self, idx, severity=4):
+    
+    def transformToSpatter(self, idx, severity=4):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [(0.65, 0.3, 4, 0.69, 0.6, 0),
@@ -430,7 +525,7 @@ class Generator():
             return cv2.cvtColor(np.float32(np.clip(x + color, 0, 1) * 255), cv2.COLOR_BGR2RGB)
 
     
-    def transformTosaturate(self, idx, severity=1):
+    def transformToSaturate(self, idx, severity=1):
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [(0.3, 0), (0.1, 0), (2, 0), (5, 0.1), (20, 0.2)][severity - 1]

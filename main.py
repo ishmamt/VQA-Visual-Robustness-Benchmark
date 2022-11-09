@@ -2,6 +2,7 @@ from generator import Generator
 from models.vilt import ViLT
 from dataset import VQADataset
 from utils import Logger
+from report import VQAReporter
 
 
 # Important Data for windows
@@ -12,6 +13,7 @@ imageDirectory = r"..\Hierarchical Co-Attention\Data\VQA\val\images\val3K"
 imagePrefix = None
 outputPath = r"."
 logPath = r"."
+reportPath = r"."
 
 # Important Data for Linux (Colab)
 # name = "val"
@@ -21,6 +23,7 @@ logPath = r"."
 # imagePrefix = None
 # outputPath = "."
 # logPath = "."
+# reportPath = "."
 
 
 # Creating a logger
@@ -38,16 +41,42 @@ generator.transform(transformationsList, outputPath=outputPath)
 
 
 # # Loading a model
-# modelName = "dandelin/vilt-b32-finetuned-vqa"
-# vilt = ViLT(modelName, logger)
+modelName = "dandelin/vilt-b32-finetuned-vqa"
+model = ViLT(modelName, logger)
 
 
-# # Computing accuracy
-# for idx in range(0, 10):
-#     image, questions, answers, _, _ = generator.dataset[idx]
+# Creating report
+reporter = VQAReporter(model.name, imageDirectory, reportPath, logger)
 
-#     for idx, question in enumerate(questions):
-#         print(question)
-#         print(answers[idx])
-#         print(vilt.predict(image, question))
-#         print("\n\n")
+
+# Computing accuracy
+totalAnswered = 0
+correctlyAnswered = 0
+verbose = 1000
+saveAfter = 100
+
+for idx in range(0, 10):
+    image, questions, answers, imageId, questionIds, questionTypes = generator.dataset[idx]
+
+    for idx, question in enumerate(questions):
+        try:
+            prediction = model.predict(image, question)
+            if answers[idx] == prediction:
+                correct = True
+                correctlyAnswered += 1
+            else:
+                correct = False
+                
+            totalAnswered += 1
+            
+            if totalAnswered % saveAfter == 0:
+                reporter.saveReport()
+            
+            if totalAnswered % verbose == 0:
+                accuracy = correctlyAnswered / totalAnswered
+                logger.info(f"Accuracy after {totalAnswered} questions: {round(accuracy, 5)}.")
+                reporter.addToReport(correct, imageId, questionIds[idx], question, questionTypes[idx], answers[idx], prediction, accuracy, totalAnswered)
+            
+        except Exception as e:
+            logger.error(f"An error occured: {e}. ImageID: {imageId}, QuestionID: {questionIds[idx]}, question: {question}, answer: {answers[idx]}.")
+            continue

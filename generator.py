@@ -206,7 +206,7 @@ class Generator():
             Returns:
                 grayImage (numpy array): Grayscale image
         '''
-        image, _, _, _, _ = self.dataset[idx]
+        image, _, _, _, _, _ = self.dataset[idx]
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         return cv2.cvtColor(grayImage, cv2.COLOR_GRAY2BGR)
@@ -222,7 +222,7 @@ class Generator():
             Returns:
                 invertedGrayImage (numpy array): Inverted grayscale image
         '''
-        image, _, _, _, _ = self.dataset[idx]
+        image, _, _, _, _, _ = self.dataset[idx]
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         invertedGrayImage = 255.0 - grayImage
         invertedGrayImage = np.float32(invertedGrayImage)
@@ -249,7 +249,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.08, .2, 0.5, 0.8, 1.2][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = x / 255.
         new_img= np.clip(x+(np.random.poisson( size=x.shape, lam=c)), 0, 1) * 255
         new_img=np.float32(new_img)
@@ -260,7 +260,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5") 
         c = [.08, .12, 0.18, 0.26, 0.38][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         new_img= np.clip(x + np.random.normal(size=x.shape, scale=c), 0, 1) * 255
         new_img=np.float32(new_img)
@@ -271,7 +271,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.03, .06, .09, 0.17, 0.27][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = sk.util.random_noise(np.array(x) / 255., mode='s&p', amount=c)
         return cv2.cvtColor(np.float32(np.clip(x, 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
@@ -280,7 +280,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.15, .2, 0.35, 0.45, 0.6][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         return cv2.cvtColor(np.float32(np.clip(x + x * np.random.normal(size=x.shape, scale=c), 0, 1) * 255), cv2.COLOR_BGR2RGB)
     
@@ -289,7 +289,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [(3, 0.1), (4, 0.5), (6, 0.5), (8, 0.5), (10, 0.5)][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         kernel = self.disk(radius=c[0], alias_blur=c[1])
 
@@ -305,7 +305,7 @@ class Generator():
             raise Exception("Greater than severity, severity must be <=5")
         # sigma, max_delta, iterations
         c = [(0.7, 1, 2), (0.9, 2, 1), (1, 2, 3), (1.1, 3, 2), (1.5, 4, 2)][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.uint8(gaussian(np.array(x) / 255., sigma=c[0], multichannel=True) * 255)
 
         # locally shuffle pixels
@@ -346,7 +346,7 @@ class Generator():
              np.arange(1, 1.21, 0.02),
              np.arange(1, 1.26, 0.02),
              np.arange(1, 1.31, 0.03)][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = (np.array(x) / 255.).astype(np.float32)
         out = np.zeros_like(x)
         #print(out.shape)
@@ -369,7 +369,7 @@ class Generator():
              (0.55, 0.3, 4, 0.9, 12, 8, 0.7),
              (0.55, 0.3, 4.5, 0.85, 12, 8, 0.65),
              (0.55, 0.3, 2.5, 0.85, 12, 12, 0.55)][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x, dtype=np.float32) / 255.
         snow_layer = np.random.normal(size=x.shape[:2], loc=c[0], scale=c[1])  # [:2] for monochrome
 
@@ -395,7 +395,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [.1, .2, .3, .4, .5][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         x = sk.color.rgb2hsv(x)
         x[:, :, 2] = np.clip(x[:, :, 2] + c, 0, 1)
@@ -407,7 +407,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [0.4, .3, .2, .1, .05][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         means = np.mean(x, axis=(0, 1), keepdims=True)
         #return np.clip((x - means) * c + means, 0, 1) * 255
@@ -422,7 +422,7 @@ class Generator():
              (244 * 0.05, 244 * 0.01, 244 * 0.02),
              (244 * 0.07, 244 * 0.01, 244 * 0.02),
              (244 * 0.12, 244 * 0.01, 244 * 0.02)][severity - 1]
-        image, _, _, _, _ = self.dataset[idx]
+        image, _, _, _, _, _ = self.dataset[idx]
 
         image = np.array(image, dtype=np.float32) / 255.
         shape = image.shape
@@ -454,7 +454,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [0.6, 0.5, 0.4, 0.3, 0.15][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         # x = cv2.cvtColor(x, cv2.COLOR_BGR2RGB)
         width = int(x.shape[1] * c)
         height = int(x.shape[0] * c)
@@ -467,7 +467,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [25, 18, 15, 10, 7][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         cv2.imwrite("parrot_saved.jpg", x, [int(cv2.IMWRITE_JPEG_QUALITY), c]) 
         temp = imread("parrot_saved.jpg")
         return temp
@@ -481,7 +481,7 @@ class Generator():
              (0.65, 0.3, 2, 0.68, 0.5, 0),
              (0.65, 0.3, 1, 0.65, 1.5, 1),
              (0.67, 0.4, 1, 0.65, 1.5, 1)][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x, dtype=np.float32) / 255.
 
         liquid_layer = np.random.normal(size=x.shape[:2], loc=c[0], scale=c[1])
@@ -532,7 +532,7 @@ class Generator():
         if(severity>5):
             raise Exception("Greater than severity, severity must be <=5")
         c = [(0.3, 0), (0.1, 0), (2, 0), (5, 0.1), (20, 0.2)][severity - 1]
-        x, _, _, _, _ = self.dataset[idx]
+        x, _, _, _, _, _ = self.dataset[idx]
         x = np.array(x) / 255.
         x = sk.color.rgb2hsv(x)  
         x[:, :, 1] = np.clip(x[:, :, 1] * c[0] + c[1], 0, 1)

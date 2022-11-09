@@ -7,8 +7,6 @@ ishmamt
 
 from logging import exception
 import torch
-import errno
-import os
 from transformers import ViltProcessor
 from transformers import ViltForQuestionAnswering
 
@@ -18,7 +16,8 @@ class ViLT():
     Class for ViLT model.
     
         Attributes:
-            modelName (string): The name of the model.
+            name (string): Simple name of the model.
+            modelName (string): The name of the model for downloading from hugging face.
             processor (ViltProcessor):  The preprocessor for ViLT model.
             model (ViltForQuestionAnswering): The ViLT model.
             logger (Logger): Logger object.
@@ -33,6 +32,7 @@ class ViLT():
                 logger (Logger): Logger object.
                 
         '''
+        self.name = "ViLT"
         self.modelName = modelName
         self.logger = logger
         self.processor, self.model = self.loadViLT()

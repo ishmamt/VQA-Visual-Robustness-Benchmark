@@ -90,7 +90,7 @@ class VQADataset(Dataset):
             Parameters:
                 index (int): Index of the itam from the VQA2.0 dataset.
             Returns:
-                item (tuple): Tuple containing the image, questions and annotations for the given index such as (image, [questions], [answers], imageId, [questionIds])
+                item (tuple): Tuple containing the image, questions and annotations for the given index such as (image, [questions], [answers], imageId, [questionIds], [questionTypes])
         '''
         try:
             imageId = self.imageIds[index]
@@ -103,11 +103,13 @@ class VQADataset(Dataset):
 
         questions = list()
         answers = list()
+        questionTypes = list()
         for questionId in questionIds:
             questions.append(self.questionsDictionary[questionId])
-            answers.append(self.answersDictionary[questionId])
+            answers.append(self.answersDictionary[questionId][0])
+            questionTypes.append(self.answersDictionary[questionId][1])
 
-        return image, questions, answers, imageId, questionIds
+        return image, questions, answers, imageId, questionIds, questionTypes
 
 
     def getImageIdsAndNames(self):
@@ -170,7 +172,7 @@ class VQADataset(Dataset):
         answersDictionary = dict()
 
         for annotation in self.annotations["annotations"]:  # list of dictionaries
-            answersDictionary[int(annotation["question_id"])] = annotation["multiple_choice_answer"]
+            answersDictionary[int(annotation["question_id"])] = (annotation["multiple_choice_answer"], annotation["question_type"])
 
         return answersDictionary
 

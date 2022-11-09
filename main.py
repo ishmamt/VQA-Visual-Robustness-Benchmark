@@ -35,9 +35,9 @@ logger.info("Starting experiment.")
 dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix, logger)
 logger.info("VQA2.0 dataset loaded.")
 
-generator = Generator(dataset, logger)
-transformationsList = ["Zoom-Blur_L1", "Elastic_L2"]
-generator.transform(transformationsList, outputPath=outputPath)
+# generator = Generator(dataset, logger)
+# transformationsList = ["Zoom-Blur_L1", "Elastic_L2"]
+# generator.transform(transformationsList, outputPath=outputPath)
 
 
 # # Loading a model
@@ -55,8 +55,8 @@ correctlyAnswered = 0
 verbose = 1000
 saveAfter = 100
 
-for idx in range(0, 10):
-    image, questions, answers, imageId, questionIds, questionTypes = generator.dataset[idx]
+for idx in range(len(dataset)):
+    image, questions, answers, imageId, questionIds, questionTypes = dataset[idx]
 
     for idx, question in enumerate(questions):
         try:

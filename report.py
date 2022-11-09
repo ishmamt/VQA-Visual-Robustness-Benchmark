@@ -20,7 +20,7 @@ class VQAReporter():
         '''
         Constructor method for the Reporter class.
         '''
-        transformationName = os.normpath(imageDirectory).split(os.sep)
+        transformationName = os.path.normpath(imageDirectory).split(os.sep)[-1]
         self.name = f"{modelName}_{transformationName}"
         self.outputDirectory = outputDirectory
         self.logger = logger

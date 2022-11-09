@@ -3,6 +3,7 @@ from models.vilt import ViLT
 from dataset import VQADataset
 from utils import Logger
 from report import VQAReporter
+from tqdm import tqdm
 
 
 # Important Data for windows
@@ -55,7 +56,10 @@ correctlyAnswered = 0
 verbose = 1000
 saveAfter = 100
 
+pBar = tqdm(total=len(dataset))  # progress bar
+
 for idx in range(len(dataset)):
+    pBar.update(1)
     image, questions, answers, imageId, questionIds, questionTypes = dataset[idx]
 
     for idx, question in enumerate(questions):

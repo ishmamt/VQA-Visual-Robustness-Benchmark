@@ -53,7 +53,7 @@ reporter = VQAReporter(model.name, imageDirectory, reportPath, logger)
 # Computing accuracy
 totalAnswered = 0
 correctlyAnswered = 0
-verbose = 1000
+verbose = 100
 saveAfter = 100
 
 pBar = tqdm(total=len(dataset))  # progress bar
@@ -73,13 +73,15 @@ for idx in range(len(dataset)):
                 
             totalAnswered += 1
             
+            accuracy = correctlyAnswered / totalAnswered
+            reporter.addToReport(correct, imageId, questionIds[idx], question, questionTypes[idx], answers[idx], prediction, accuracy, totalAnswered)
+            
             if totalAnswered % saveAfter == 0:
                 reporter.saveReport()
             
             if totalAnswered % verbose == 0:
-                accuracy = correctlyAnswered / totalAnswered
                 logger.info(f"Accuracy after {totalAnswered} questions: {round(accuracy, 5)}.")
-                reporter.addToReport(correct, imageId, questionIds[idx], question, questionTypes[idx], answers[idx], prediction, accuracy, totalAnswered)
+                
             
         except Exception as e:
             logger.error(f"An error occured: {e}. ImageID: {imageId}, QuestionID: {questionIds[idx]}, question: {question}, answer: {answers[idx]}.")

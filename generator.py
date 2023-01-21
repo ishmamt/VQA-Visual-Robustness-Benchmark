@@ -49,6 +49,86 @@ class Generator():
         '''
         self.dataset = dataset
         self.logger = logger
+        # self.validTransformations = {
+        #                             "Grayscale": self.transformToGrayscale, 
+        #                             "Grayscale-Inverse": self.transformToGrayscaleInverted,
+        #                             "Shot-noise_L1": (self.transformToShotNoise, 1),
+        #                             "Shot-noise_L2": (self.transformToShotNoise, 2),
+        #                             "Shot-noise_L3": (self.transformToShotNoise, 3),
+        #                             "Shot-noise_L4": (self.transformToShotNoise, 4),
+        #                             "Shot-noise_L5": (self.transformToShotNoise, 5),
+        #                             "Gaussian-noise_L1": (self.transformToGaussianNoise, 1),
+        #                             "Gaussian-noise_L2": (self.transformToGaussianNoise, 2),
+        #                             "Gaussian-noise_L3": (self.transformToGaussianNoise, 3),
+        #                             "Gaussian-noise_L4": (self.transformToGaussianNoise, 4),
+        #                             "Gaussian-noise_L5": (self.transformToGaussianNoise, 5),
+        #                             "Impulse-noise_L1": (self.transformToImpulseNoise, 1),
+        #                             "Impulse-noise_L2": (self.transformToImpulseNoise, 2),
+        #                             "Impulse-noise_L3": (self.transformToImpulseNoise, 3),
+        #                             "Impulse-noise_L4": (self.transformToImpulseNoise, 4),
+        #                             "Impulse-noise_L5": (self.transformToImpulseNoise, 5),
+        #                             "Speckle-noise_L1": (self.transformToSpeckleNoise, 1),
+        #                             "Speckle-noise_L2": (self.transformToSpeckleNoise, 2),
+        #                             "Speckle-noise_L3": (self.transformToSpeckleNoise, 3),
+        #                             "Speckle-noise_L4": (self.transformToSpeckleNoise, 4),
+        #                             "Speckle-noise_L5": (self.transformToSpeckleNoise, 5),
+        #                             "Defocus-blur_L1": (self.transformToDefocusBlur, 1),
+        #                             "Defocus-blur_L2": (self.transformToDefocusBlur, 2),
+        #                             "Defocus-blur_L3": (self.transformToDefocusBlur, 3),
+        #                             "Defocus-blur_L4": (self.transformToDefocusBlur, 4),
+        #                             "Defocus-blur_L5": (self.transformToDefocusBlur, 5),
+        #                             "Glass-blur_L1": (self.transformToGlassBlur, 1),
+        #                             "Glass-blur_L2": (self.transformToGlassBlur, 2),
+        #                             "Glass-blur_L3": (self.transformToGlassBlur, 3),
+        #                             "Glass-blur_L4": (self.transformToGlassBlur, 4),
+        #                             "Glass-blur_L5": (self.transformToGlassBlur, 5),
+        #                             "Zoom-Blur_L1": (self.transformToZoomBlur, 1),
+        #                             "Zoom-Blur_L2": (self.transformToZoomBlur, 2),
+        #                             "Zoom-Blur_L3": (self.transformToZoomBlur, 3),
+        #                             "Zoom-Blur_L4": (self.transformToZoomBlur, 4),
+        #                             "Zoom-Blur_L5": (self.transformToZoomBlur, 5),
+        #                             "Snow_L1": (self.transformToSnow, 1),
+        #                             "Snow_L2": (self.transformToSnow, 2),
+        #                             "Snow_L3": (self.transformToSnow, 3),
+        #                             "Snow_L4": (self.transformToSnow, 4),
+        #                             "Snow_L5": (self.transformToSnow, 5),
+        #                             "Brightness_L1": (self.transformToBrightness, 1),
+        #                             "Brightness_L2": (self.transformToBrightness, 2),
+        #                             "Brightness_L3": (self.transformToBrightness, 3),
+        #                             "Brightness_L4": (self.transformToBrightness, 4),
+        #                             "Brightness_L5": (self.transformToBrightness, 5),
+        #                             "Contrast_L1": (self.transformToContrast, 1),
+        #                             "Contrast_L2": (self.transformToContrast, 2),
+        #                             "Contrast_L3": (self.transformToContrast, 3),
+        #                             "Contrast_L4": (self.transformToContrast, 4),
+        #                             "Contrast_L5": (self.transformToContrast, 5),
+        #                             "Saturation_L1": (self.transformToSaturate, 1),
+        #                             "Saturation_L2": (self.transformToSaturate, 2),
+        #                             "Saturation_L3": (self.transformToSaturate, 3),
+        #                             "Saturation_L4": (self.transformToSaturate, 4),
+        #                             "Saturation_L5": (self.transformToSaturate, 5),
+        #                             "Elastic_L1": (self.transformToElastic, 1),
+        #                             "Elastic_L2": (self.transformToElastic, 2),
+        #                             "Elastic_L3": (self.transformToElastic, 3),
+        #                             "Elastic_L4": (self.transformToElastic, 4),
+        #                             "Elastic_L5": (self.transformToElastic, 5),
+        #                             "Pixelate_L1": (self.transformToPixelate, 1),
+        #                             "Pixelate_L2": (self.transformToPixelate, 2),
+        #                             "Pixelate_L3": (self.transformToPixelate, 3),
+        #                             "Pixelate_L4": (self.transformToPixelate, 4),
+        #                             "Pixelate_L5": (self.transformToPixelate, 5),
+        #                             "JPEG-compression_L1": (self.transformToJpegCompression, 1),
+        #                             "JPEG-compression_L2": (self.transformToJpegCompression, 2),
+        #                             "JPEG-compression_L3": (self.transformToJpegCompression, 3),
+        #                             "JPEG-compression_L4": (self.transformToJpegCompression, 4),
+        #                             "JPEG-compression_L5": (self.transformToJpegCompression, 5),
+        #                             "Spatter_L1": (self.transformToSpatter, 1),
+        #                             "Spatter_L2": (self.transformToSpatter, 2),
+        #                             "Spatter_L3": (self.transformToSpatter, 3),
+        #                             "Spatter_L4": (self.transformToSpatter, 4),
+        #                             "Spatter_L5": (self.transformToSpatter, 5)
+        #                             }
+
         self.validTransformations = {
                                     "Grayscale": self.transformToGrayscale, 
                                     "Grayscale-Inverse": self.transformToGrayscaleInverted,
@@ -77,11 +157,6 @@ class Generator():
                                     "Defocus-blur_L3": (self.transformToDefocusBlur, 3),
                                     "Defocus-blur_L4": (self.transformToDefocusBlur, 4),
                                     "Defocus-blur_L5": (self.transformToDefocusBlur, 5),
-                                    "Glass-blur_L1": (self.transformToGlassBlur, 1),
-                                    "Glass-blur_L2": (self.transformToGlassBlur, 2),
-                                    "Glass-blur_L3": (self.transformToGlassBlur, 3),
-                                    "Glass-blur_L4": (self.transformToGlassBlur, 4),
-                                    "Glass-blur_L5": (self.transformToGlassBlur, 5),
                                     "Zoom-Blur_L1": (self.transformToZoomBlur, 1),
                                     "Zoom-Blur_L2": (self.transformToZoomBlur, 2),
                                     "Zoom-Blur_L3": (self.transformToZoomBlur, 3),
@@ -149,6 +224,7 @@ class Generator():
                 raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), outputPath)
 
         for transformation in transformationsList:
+            print(transformation)
             if transformation not in self.validTransformations:
                 self.logger.warning(f"Invalid transformation: {transformation}. It should be one of {self.validTransformations.keys()}")
                 continue
@@ -207,6 +283,9 @@ class Generator():
                 grayImage (numpy array): Grayscale image
         '''
         image, _, _, _, _, _ = self.dataset[idx]
+        if len(image.shape) != 3:
+            return cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
         return cv2.cvtColor(grayImage, cv2.COLOR_GRAY2BGR)
@@ -223,6 +302,12 @@ class Generator():
                 invertedGrayImage (numpy array): Inverted grayscale image
         '''
         image, _, _, _, _, _ = self.dataset[idx]
+        if len(image.shape) != 3:
+            invertedGrayImage = 255.0 - image
+            invertedGrayImage = np.float32(invertedGrayImage)
+
+            return cv2.cvtColor(invertedGrayImage, cv2.COLOR_GRAY2BGR)
+
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         invertedGrayImage = 255.0 - grayImage
         invertedGrayImage = np.float32(invertedGrayImage)

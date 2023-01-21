@@ -7,6 +7,7 @@ ishmamt
 """
 
 import cv2
+from imageio import imread
 import os
 from datetime import datetime
 
@@ -22,8 +23,12 @@ def loadImage(imageDirectory, imageName):
         Returns:
             image (numpy array): The image specified.
     '''
-    
-    return cv2.imread(os.path.join(imageDirectory, imageName))
+    image = imread(os.path.join(imageDirectory, imageName))
+
+    if len(image.shape) == 2:
+        image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+
+    return image
 
 
 def saveImage(image, imageDirectory, imageName):

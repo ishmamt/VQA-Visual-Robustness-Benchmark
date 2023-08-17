@@ -35,14 +35,14 @@ logger = Logger(logPath)
 logger.info("Starting experiment.")
 
 
-# # Transformation of dataset
-# dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix, logger)
-# logger.info("VQA2.0 dataset loaded.")
+# Transformation of dataset
+dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix, logger)
+logger.info("VQA2.0 dataset loaded.")
 
-# generator = Generator(dataset, logger)
+generator = Generator(dataset, logger)
 # transformationsList = ["Defocus-blur_L1"]
-# transformationsList = list(generator.validTransformations.keys())[23:]
-# generator.transform(transformationsList, outputPath=outputPath)
+transformationsList = list(generator.validTransformations.keys())[23:]
+generator.transform(transformationsList, outputPath=outputPath)
 
 
 # Loading a model

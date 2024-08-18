@@ -6,7 +6,7 @@
 
 ## Overview of the Visual Robustness Benchmark
 
-![image](./Assets/overview.png)
+![image](./assets/overview.png)
 
 ## Quick Start
 A helpful <a href='https://colab.research.google.com/drive/1gTsUG5BNp3MPyQQS8L6qpBqpZD45E3Vp?usp=sharing'>Notebook</a> is given to run basic commands. 

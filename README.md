@@ -1,5 +1,11 @@
-# Visual Robustness
-Framework for visual robustness testing of any VQA model. Work in progress.
+# Visual Robustness Benchmark for Visual Question Answering (VQA)
+
+[Paper](https://arxiv.org/abs/2407.03386)
+
+[Md Farhan Ishmam](https://cse.iutoic-dhaka.edu/profile/farhanishmam/), [Ishmam Tashdeed](https://cse.iutoic-dhaka.edu/profile/ishmamtashdeed/), and [Talukder Asir Saadat](https://www.bubt.edu.bd/department/member_details/806) 
+
+*Overview of the Visual Robustness Benchmark*
+![image](./assets/overview.png)
 
 <h2 id="getting-started">Getting Started</h2>
 

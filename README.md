@@ -9,7 +9,8 @@
 ![image](./assets/overview.png)
 
 ## Quick Start
-A helpful <a href='https://colab.research.google.com/drive/1gTsUG5BNp3MPyQQS8L6qpBqpZD45E3Vp?usp=sharing'>Notebook</a> is given to run basic commands. 
+
+[<img align="center" src="https://colab.research.google.com/assets/colab-badge.svg" />](https://colab.research.google.com/drive/1gTsUG5BNp3MPyQQS8L6qpBqpZD45E3Vp?usp=sharing)
 
 **Note:** Make sure that you already have the `Image directory`, `question JSON`, and `annotation JSON` in your drive.
 

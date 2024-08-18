@@ -40,3 +40,20 @@ sudo apt-get install libmagickwand-dev
 ```
 If you have a *Windows* system, follow steps given in the <a href='https://docs.wand-py.org/en/latest/guide/install.html#install-imagemagick-on-windows:~:text=/opt/local-,Install%20ImageMagick%20on%20Windows,-%C2%B6'>website</a>.
 
+## Data Analysis
+
+Data analysis for this work is done in Python via the given notebooks. All the plots included in the paper can be reproduced via the notebooks.
+
+## Acknowledgement
+
+We thank the Network and Data Analysis Group (NDAG), IUT-CSE for providing the computational resources to conduct the experiments.
+
+## Citation
+```
+@article{ishmam2024visual,
+  title={Visual Robustness Benchmark for Visual Question Answering (VQA)},
+  author={Ishmam, Md Farhan and Tashdeed, Ishmam and Saadat, Talukder Asir and Ashmafee, Md Hamjajul and Kamal, Dr Abu Raihan Mostofa and Hossain, Dr Md Azam},
+  journal={arXiv preprint arXiv:2407.03386},
+  year={2024}
+}
+```

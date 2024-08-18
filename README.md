@@ -7,7 +7,7 @@
 *Equal Contribution
 
 *Overview of the Visual Robustness Benchmark*
-![image](./assets/overview.png)
+![image](./Assets/overview.png)
 
 <h2 id="getting-started">Getting Started</h2>
 

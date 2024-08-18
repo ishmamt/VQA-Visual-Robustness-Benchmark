@@ -2,7 +2,9 @@
 
 [Paper](https://arxiv.org/abs/2407.03386)
 
-[Md Farhan Ishmam](https://cse.iutoic-dhaka.edu/profile/farhanishmam/), [Ishmam Tashdeed](https://cse.iutoic-dhaka.edu/profile/ishmamtashdeed/), and [Talukder Asir Saadat](https://www.bubt.edu.bd/department/member_details/806) 
+[Md Farhan Ishmam*](https://cse.iutoic-dhaka.edu/profile/farhanishmam/), [Ishmam Tashdeed*](https://cse.iutoic-dhaka.edu/profile/ishmamtashdeed/), [Talukder Asir Saadat*](https://www.bubt.edu.bd/department/member_details/806), [Md. Hamjajul Ashmafee](https://cse.iutoic-dhaka.edu/profile/ashmafee/), [Md. Azam Hossain](https://cse.iutoic-dhaka.edu/profile/azam/), and [Abu Raihan Mostofa Kamal](https://cse.iutoic-dhaka.edu/profile/raihan-kamal/)
+
+*Equal Contribution
 
 *Overview of the Visual Robustness Benchmark*
 ![image](./assets/overview.png)

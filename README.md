@@ -16,17 +16,10 @@
 
 ## Installation
 
-### Step 1:
-If you have CUDA support then install `torch`, `torchvision`, and `torchaudio` as:
-```
-pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/[CUDA_VERSION]
-```
-For details, go to: <a href="https://pytorch.org/get-started/locally/">PyTorch</a> website.
+This repository is tested on `Python 3.8`. Create a virtual environment to install all the dependencies.
 
-If you don't have CUDA support then install `torch`, `torchvision` and `torchaudio` as:
-```
-pip install torch torchvision torchaudio
-```
+### Step 1:
+To install `torch` visit the <a href="https://pytorch.org/get-started/locally/">PyTorch</a> website and follow the instructions.
 
 ### Step 2:
 Install `requirements.txt` file running the command:
@@ -35,11 +28,22 @@ pip install -r requirements.txt
 ```
 
 ### Step 3:
-Install MagickWand library. If you have a *Linux* system use:
+Install `MagickWand` library. If you have a **Linux** system use:
 ```
 sudo apt-get install libmagickwand-dev
 ```
-If you have a *Windows* system, follow steps given in the <a href='https://docs.wand-py.org/en/latest/guide/install.html#install-imagemagick-on-windows:~:text=/opt/local-,Install%20ImageMagick%20on%20Windows,-%C2%B6'>website</a>.
+If you have a **Windows** system, follow steps given in the <a href='https://docs.wand-py.org/en/latest/guide/install.html#install-imagemagick-on-windows:~:text=/opt/local-,Install%20ImageMagick%20on%20Windows,-%C2%B6'>website</a>.
+
+## Dataset
+
+This repository uses a random split of the VQAv2 dataset found on the <a href="https://visualqa.org/download.html">Visual Question Answering</a> website.
+
+## Experiment
+
+To run the experiment, execute the following command:
+```
+python main.py
+```
 
 ## Data Analysis
 

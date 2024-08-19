@@ -1,8 +1,8 @@
 # Visual Robustness Benchmark for Visual Question Answering (VQA)
 
-[![arXiv](https://img.shields.io/badge/arXiv-2305.06595-b31b1b.svg?logo=arxiv)](https://arxiv.org/abs/2407.03386)
+[![arXiv](https://img.shields.io/badge/arXiv-2407.03386-b31b1b.svg?logo=arxiv)](https://arxiv.org/abs/2407.03386)
 
-[Md Farhan Ishmam*](https://cse.iutoic-dhaka.edu/profile/farhanishmam/), [Ishmam Tashdeed*](https://cse.iutoic-dhaka.edu/profile/ishmamtashdeed/), [Talukder Asir Saadat*](https://www.bubt.edu.bd/department/member_details/806), [Md. Hamjajul Ashmafee](https://cse.iutoic-dhaka.edu/profile/ashmafee/), [Md. Azam Hossain](https://cse.iutoic-dhaka.edu/profile/azam/), and [Abu Raihan Mostofa Kamal](https://cse.iutoic-dhaka.edu/profile/raihan-kamal/) (*Equal Contribution)
+[Md Farhan Ishmam*](https://farhanishmam.github.io/), [Ishmam Tashdeed*](https://cse.iutoic-dhaka.edu/profile/ishmamtashdeed/), [Talukder Asir Saadat*](https://www.bubt.edu.bd/department/member_details/806), [Md. Hamjajul Ashmafee](https://cse.iutoic-dhaka.edu/profile/ashmafee/), [Md. Azam Hossain](https://cse.iutoic-dhaka.edu/profile/azam/), and [Abu Raihan Mostofa Kamal](https://cse.iutoic-dhaka.edu/profile/raihan-kamal/) (*Equal Contribution)
 
 ## Overview of the Visual Robustness Benchmark
 

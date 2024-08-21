@@ -46,7 +46,7 @@ The VQA datasets, models, and corruptions are the input to the framework while t
 
 [<img align="center" src="https://colab.research.google.com/assets/colab-badge.svg" />](https://colab.research.google.com/drive/1gTsUG5BNp3MPyQQS8L6qpBqpZD45E3Vp?usp=sharing)
 
-⚠️ **Note:** Make sure that you already have the `Image directory`, `question JSON`, and `annotation JSON` in your drive. ⚠️
+⚠️ Ensure that you have the `Image directory`, `question JSON`, and `annotation JSON` data in your drive. ⚠️
 
 ## Installation
 

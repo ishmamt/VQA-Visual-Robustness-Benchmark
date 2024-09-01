@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://farhanishmam.github.io/"><strong>Md Farhan Ishmam*</strong></a>
     ·
-    <a href="https://cse.iutoic-dhaka.edu/profile/ishmamtashdeed/"><strong>Ishmam Tashdeed*</strong></a>
+    <a href="https://ishmamt.github.io/"><strong>Ishmam Tashdeed*</strong></a>
     ·
     <a href="https://www.bubt.edu.bd/department/member_details/806"><strong>Talukder Asir Saadat*</strong></a>
       ·

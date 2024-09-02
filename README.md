@@ -44,6 +44,24 @@ The architecture of the Visual Robustness Framework and its components –
 
 The VQA datasets, models, and corruptions are the input to the framework while the VRE scores, accuracy scores, and visualizations will be produced as the output.
 
+## Visual Corruption Functions
+We introduce 14 corruption functions categorized into 6 classes and replicating realistic visual effects.
+<p>
+  <img src="./assets/noise1.png" alt="Image 1" title="Image 1" width="500" height="auto" style="margin-right: 10px;"/>
+  <img src="./assets/noise2.png" alt="Image 2" title="Image 2" width="500" height="auto"/>
+</p>
+
+## Robustness Evaluation Metrics
+| Metric Name      |Symbol|Formula|
+|------------------|----------------|----------------------------------------------|
+| First-Drop         |  $F_{v,c}$ | $\frac{E_{v,c,1} - E_{v,c,0}}{E_{v,c,0}}$   |
+| Range of Error         | $\mathcal{R}_{v,c}$ | \( D \times E \)                             |
+| Error Rate   | $\rho_{v,c}$ | \( \sqrt{F} \)                               |
+| Average Error | $\mu_{v,c}$ | \( G - H \)                                  |
+|  Average Difference of Corruption Error| $\Delta_{v,c}$ | \( I \times \frac{J}{K} \)                   |
+| Visual Robustness Error | $VRE_{v,c}$ | \( \frac{L}{M} + N \)                        |
+
+
 ## Quick Start
 
 [<img align="center" src="https://colab.research.google.com/assets/colab-badge.svg" />](https://colab.research.google.com/drive/1gTsUG5BNp3MPyQQS8L6qpBqpZD45E3Vp?usp=sharing)

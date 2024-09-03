@@ -46,7 +46,7 @@ The VQA datasets, models, and corruptions are the input to the framework while t
 
 ## Visual Corruption Functions
 We introduce 14 corruption functions categorized into 6 classes and replicating realistic visual effects.
-<p>
+<p align="center">
   <img src="./assets/noise1.png" alt="Image 1" title="Image 1" width="500" height="auto" style="margin-right: 10px;"/>
   <img src="./assets/noise2.png" alt="Image 2" title="Image 2" width="500" height="auto"/>
 </p>

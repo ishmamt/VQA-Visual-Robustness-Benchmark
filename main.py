@@ -5,7 +5,10 @@ from utils import Logger
 from report import VQAReporter
 from tqdm import tqdm
 import os
+# ------------------------------------------------------------------------------------------------------
 
+CREATE_DATASETS = True
+RUN_EXPERIMENTS = False
 
 # Important Data for windows
 # name = "val"
@@ -39,59 +42,61 @@ logger.info("Starting experiment.")
 dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectory, imagePrefix, logger)
 logger.info("VQA2.0 dataset loaded.")
 
-generator = Generator(dataset, logger)
-# transformationsList = ["Defocus-blur_L1"]
-transformationsList = list(generator.validTransformations.keys())[23:]
-generator.transform(transformationsList, outputPath=outputPath)
+if CREATE_DATASETS:
+    generator = Generator(dataset, logger)
+    # transformationsList = ["Defocus-blur_L1"]
+    transformationsList = list(generator.validTransformations.keys())[23:]
+    generator.transform(transformationsList, outputPath=outputPath)
 
 
-# Loading a model
-modelName = "dandelin/vilt-b32-finetuned-vqa"
-model = ViLT(modelName, logger)
+if RUN_EXPERIMENTS:
+    # Loading a model
+    modelName = "dandelin/vilt-b32-finetuned-vqa"
+    model = ViLT(modelName, logger)
 
-for imageDir in os.listdir(imageDirectory):
-    # Transformation of dataset
-    imageDirectoryMultiple = os.path.join(imageDirectory, imageDir)
-    dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectoryMultiple, imagePrefix, logger)
-    logger.info(f"VQA2.0 dataset loaded for {imageDirectoryMultiple}.")
-    
-    # Creating report
-    reportPathMultiple = os.path.join(reportPath, imageDir)
-    reporter = VQAReporter(model.name, imageDirectoryMultiple, reportPathMultiple, logger)
+    for imageDir in os.listdir(imageDirectory):
+        # Transformation of dataset
+        imageDirectoryMultiple = os.path.join(imageDirectory, imageDir)
+        dataset = VQADataset(name, questionsJSON, annotationsJSON, imageDirectoryMultiple, imagePrefix, logger)
+        logger.info(f"VQA2.0 dataset loaded for {imageDirectoryMultiple}.")
+        
+        # Creating report
+        reportPathMultiple = os.path.join(reportPath, imageDir)
+        reporter = VQAReporter(model.name, imageDirectoryMultiple, reportPathMultiple, logger)
 
-    # Computing accuracy
-    totalAnswered = 0
-    correctlyAnswered = 0
-    verbose = 100
-    saveAfter = 50
+        # Computing accuracy
+        totalAnswered = 0
+        correctlyAnswered = 0
+        verbose = 100
+        saveAfter = 50
 
-    pBar = tqdm(total=len(dataset))  # progress bar
+        pBar = tqdm(total=len(dataset))  # progress bar
 
-    for idx in range(len(dataset)):
-        pBar.update(1)
-        image, questions, answers, imageId, questionIds, questionTypes = dataset[idx]
+        for idx in range(len(dataset)):
+            pBar.update(1)
+            image, questions, answers, imageId, questionIds, questionTypes = dataset[idx]
 
-        for idx, question in enumerate(questions):
-            try:
-                prediction = model.predict(image, question)
-                if answers[idx] == prediction:
-                    correct = True
-                    correctlyAnswered += 1
-                else:
-                    correct = False
+            for idx, question in enumerate(questions):
+                try:
+                    prediction = model.predict(image, question)
+                    if answers[idx] == prediction:
+                        correct = True
+                        correctlyAnswered += 1
+                    else:
+                        correct = False
+                        
+                    totalAnswered += 1
                     
-                totalAnswered += 1
-                
-                accuracy = correctlyAnswered / totalAnswered
-                reporter.addToReport(correct, imageId, questionIds[idx], question, questionTypes[idx], answers[idx], prediction, accuracy, totalAnswered)
-                
-                if totalAnswered % saveAfter == 0:
-                    reporter.saveReport()
-                
-                if totalAnswered % verbose == 0:
-                    logger.info(f"Accuracy after {totalAnswered} questions: {round(accuracy, 5)}.")
+                    accuracy = correctlyAnswered / totalAnswered
+                    reporter.addToReport(correct, imageId, questionIds[idx], question, questionTypes[idx], answers[idx], prediction, accuracy, totalAnswered)
                     
-                
-            except Exception as e:
-                logger.error(f"An error occured: {e}. ImageID: {imageId}, QuestionID: {questionIds[idx]}, question: {question}, answer: {answers[idx]}.")
-                continue
+                    if totalAnswered % saveAfter == 0:
+                        reporter.saveReport()
+                    
+                    if totalAnswered % verbose == 0:
+                        logger.info(f"Accuracy after {totalAnswered} questions: {round(accuracy, 5)}.")
+                        
+                    
+                except Exception as e:
+                    logger.error(f"An error occured: {e}. ImageID: {imageId}, QuestionID: {questionIds[idx]}, question: {question}, answer: {answers[idx]}.")
+                    continue

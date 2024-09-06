@@ -22,12 +22,12 @@ RUN_EXPERIMENTS = False
 
 # Important Data for Linux (Colab)
 name = "val"
-annotationsJSON = "Data/val_ann_3K.json"
-questionsJSON = "Data/val_quest_3K.json"
+annotationsJSON = "Data/v2_mscoco_val2014_annotations.json"
+questionsJSON = "Data/v2_OpenEnded_mscoco_val2014_questions.json"
 # imageDirectory = "Data/val3K"
 imageDirectory = "Data/Images/"
 imagePrefix = None
-outputPath = "Data/Images/"
+outputPath = "Data/OutputImages/"
 #outputPath = "Data/test_save/"
 logPath = "Data/"
 reportPath = "Data/Reports/"

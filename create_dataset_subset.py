@@ -40,8 +40,8 @@ def select_random_images(source_dir, destination_dir, num_images, seed_value=42)
 
 # Example usage
 if __name__ == '__main__':
-    source_directory = os.path.join("Data", "Images")
-    destination_directory = os.path.join("Data", "NewImages")
-    number_of_images = 5  # Number of images to select
+    source_directory = os.path.join("Data", "val2014")
+    destination_directory = os.path.join("Data", "Images")
+    number_of_images = 500  # Number of images to select
 
     select_random_images(source_directory, destination_directory, number_of_images, seed_value=42)

@@ -150,7 +150,7 @@ class LLaVa():
         '''
         try:
             image = self.preprocess(image)
-            prompt, conv = create_prompt()  ## Add prompt with question
+            prompt, conv = self.create_prompt("Answer the given question in a single word using the image as context: " + question)  ## Add prompt with question
             answer = self.ask_image(image, prompt, conv)
             
         except exception as e:

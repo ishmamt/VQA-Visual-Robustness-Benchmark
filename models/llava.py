@@ -71,8 +71,8 @@ class LLaVa():
                                                     model_base=None, 
                                                     model_name=get_model_name_from_path(self.modelPath), 
                                                     load_4bit=True)
-            model.eval()
-            model = model.to(self.device)
+            # model.eval()
+            # model = model.to(self.device)
 
         except exception as e:
             self.logger.error(f"{e} occured while loading model: {self.name}.")

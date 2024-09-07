@@ -1,5 +1,5 @@
 from generator import Generator
-from models.vilt import ViLT
+from models.llava import LLaVa
 from dataset import VQADataset
 from utils import Logger
 from report import VQAReporter
@@ -7,8 +7,8 @@ from tqdm import tqdm
 import os
 # ------------------------------------------------------------------------------------------------------
 
-CREATE_DATASETS = True
-RUN_EXPERIMENTS = False
+CREATE_DATASETS = False
+RUN_EXPERIMENTS = True
 
 # Important Data for windows
 # name = "val"
@@ -22,15 +22,15 @@ RUN_EXPERIMENTS = False
 
 # Important Data for Linux (Colab)
 name = "val"
-annotationsJSON = "Data/v2_mscoco_val2014_annotations.json"
-questionsJSON = "Data/v2_OpenEnded_mscoco_val2014_questions.json"
+annotationsJSON = "/kaggle/input/vqa-dataset/v2_mscoco_val2014_annotations.json"
+questionsJSON = "/kaggle/input/vqa-dataset/v2_OpenEnded_mscoco_val2014_questions.json"
 # imageDirectory = "Data/val3K"
-imageDirectory = "Data/Images/"
+imageDirectory = "/kaggle/input/vqa-dataset/OutputImages/OutputImages/"
 imagePrefix = None
-outputPath = "Data/OutputImages/"
+outputPath = "/kaggle/input/vqa-dataset/OutputImages/"
 #outputPath = "Data/test_save/"
-logPath = "Data/"
-reportPath = "Data/Reports/"
+logPath = "/kaggle/output/"
+reportPath = "/kaggle/output/"
 
 
 # Creating a logger
@@ -51,8 +51,7 @@ if CREATE_DATASETS:
 
 if RUN_EXPERIMENTS:
     # Loading a model
-    modelName = "dandelin/vilt-b32-finetuned-vqa"
-    model = ViLT(modelName, logger)
+    model = LLaVa(logger)
 
     for imageDir in os.listdir(imageDirectory):
         # Transformation of dataset

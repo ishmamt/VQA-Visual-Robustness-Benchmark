@@ -55,11 +55,11 @@ We introduce 14 corruption functions categorized into 6 classes and replicating 
 | Metric Name      |Symbol|Formula|
 |------------------|----------------|----------------------------------------------|
 | First-Drop         |  $F_{v,c}$ | $\frac{E_{v,c,1} - E_{v,c,0}}{E_{v,c,0}}$   |
-| Range of Error         | $\mathcal{R}_{v,c}$ | \( D \times E \)                             |
-| Error Rate   | $\rho_{v,c}$ | \( \sqrt{F} \)                               |
-| Average Error | $\mu_{v,c}$ | \( G - H \)                                  |
-|  Average Difference of Corruption Error| $\Delta_{v,c}$ | \( I \times \frac{J}{K} \)                   |
-| Visual Robustness Error | $VRE_{v,c}$ | \( \frac{L}{M} + N \)                        |
+| Range of Error         | $\mathcal{R}_{v,c}$ | $\frac{\underset{l\in\mathbb{L}}{max\ }E_{v,c,l} - \underset{l\in\mathbb{L}}{min\ }E_{v,c,l}}{\underset{l\in\mathbb{L}}{min\ }E_{v,c,l}}$                            |
+| Error Rate   | $\rho_{v,c}$ | $\frac{L\underset{l\in \mathbb{L}}{\sum}\left(l\cdot E_{v,c,l}\right)-\left(\underset{l\in \mathbb{L}}{\sum}l\right)\cdot \left(\underset{l\in \mathbb{L}}{\sum}E_{v,c,l}\right)}{L\underset{l\in \mathbb{L}}{\sum}l^2 - \left(\underset{l\in \mathbb{L}}{\sum}l\right)^2}$ |
+| Average Error | $\mu_{v,c}$ | $\frac{1}{L}\underset{l\in \mathbb{L}}{\sum}E_{v,c,l}$                                  |
+|  Average Difference of Corruption Error| $\Delta_{v,c}$ | $\frac{1}{L}\underset{l\in \mathbb{L}'}{\sum}\left(E_{v,c,l}-E_{v,c,0}\right)$ |
+| Visual Robustness Error | $VRE_{v/c}$ | $\underset{\mathcal{M}\in \mathbb{M}}{\sum}W_\mathcal{M}\mathcal{M}_{v/c}$ |
 
 
 ## Quick Start

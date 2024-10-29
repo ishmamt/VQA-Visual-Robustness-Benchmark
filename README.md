@@ -20,8 +20,8 @@
 
 <div align="center">
 
+[![arXiv](https://img.shields.io/badge/Paper-WACV%202025-FFFFFF?labelColor=654187)](https://img.shields.io/badge/TBD-To_Be_Updated-f7d720)
 [![arXiv](https://img.shields.io/badge/arXiv-2407.03386-b31b1b.svg?logo=arxiv)](https://arxiv.org/abs/2407.03386)
-![paper](https://img.shields.io/badge/Paper_Status-In--Review-yellow)
 [![arXiv](https://img.shields.io/badge/Code-ishmamt/VQA--Visual--Robustness--Benchmark-blue?logo=GitHub)](https://github.com/ishmamt/VQA-Visual-Robustness-Benchmark/)
 </div>
 

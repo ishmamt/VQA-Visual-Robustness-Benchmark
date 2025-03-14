@@ -86,7 +86,7 @@ This repository is tested on `Python 3.8`. Create a virtual environment to insta
    sudo apt-get install libmagickwand-dev
    ```
 
-If you have a **Windows** system, follow steps given in the <a href='https://docs.wand-py.org/en/latest/guide/install.html#install-imagemagick-on-windows:~:text=/opt/local-,Install%20ImageMagick%20on%20Windows,-%C2%B6'>website</a>.
+If you have a **Windows** system, follow the steps given in the <a href='https://docs.wand-py.org/en/latest/guide/install.html#install-imagemagick-on-windows:~:text=/opt/local-,Install%20ImageMagick%20on%20Windows,-%C2%B6'>website</a>.
 
 ## Dataset
 
